@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import Navbar from './components/Navbar.jsx';
 import RiskDetail from './components/RiskDetail.jsx';
-import { useIntegrity } from './hooks/useIntegrity';
+import { useTrustChain } from './sdk/useTrustChain';
 import { getStatusDisplay } from './utils/statusDisplay';
 import './App.css';
 
@@ -12,8 +12,17 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://trustchain-so
 
 function WalletIntegrity() {
   const { connected, publicKey } = useWallet();
-  // Destructure with default values so we can override them
-  let { giniScore, hhiScore, syncIndex, reason, latencyMs, status, loading, error } = useIntegrity();
+
+  const { data, loading, error, refetch } = useTrustChain();
+
+  // Destructure data safely
+  let status = data?.status || null;
+  let scores = data?.scores || {};
+  let giniScore = scores.gini != null ? parseFloat(scores.gini) : null;
+  let hhiScore = scores.hhi != null ? parseFloat(scores.hhi) : null;
+  let syncIndex = scores.syncIndex != null ? parseFloat(scores.syncIndex) : null;
+  let reason = data?.reason || null;
+  let latencyMs = data?.latencyMs != null ? parseFloat(data.latencyMs) : null;
 
   // --- 🛡️ INSTITUTIONAL DEMO OVERRIDE ---
   const isDemoWallet = publicKey?.toBase58() === "FBbjMhKtg1iyy83CeHaieqEFqw586i3WYG4zCcnXr7tc";
@@ -39,6 +48,7 @@ function WalletIntegrity() {
       latencyMs={latencyMs}
       loading={loading}
       error={error}
+      refetch={refetch}
     />
   );
 }

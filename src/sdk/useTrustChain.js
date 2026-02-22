@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
 
-const DEFAULT_API_URL = import.meta.env.VITE_BACKEND_URL || import.meta.env.VITE_API_BASE_URL || 'https://trustchain-2-backend.vercel.app';
+const DEFAULT_API_URL = import.meta.env.VITE_API_BASE_URL || 'https://trustchain-sovereign-backend.vercel.app';
 
 /**
  * useTrustChain Hook
@@ -32,19 +32,17 @@ export function useTrustChain(options = {}) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const fetchData = useCallback(async (signal) => {
+  const fetchData = useCallback(async (signal, isSilent = false) => {
     if (!address && !mock) {
-        // If not mocking and no address, we can't do anything.
         setData(null);
         return;
     }
 
-    setLoading(true);
+    if (!isSilent) setLoading(true);
     setError(null);
 
     // Mock Mode
     if (mock) {
-      // Simulate network delay
       try {
         await new Promise((resolve, reject) => {
             const timer = setTimeout(resolve, 500);
@@ -56,7 +54,6 @@ export function useTrustChain(options = {}) {
             }
         });
       } catch (e) {
-        // Aborted
         return;
       }
 
@@ -74,9 +71,11 @@ export function useTrustChain(options = {}) {
 
     // Real API Call
     try {
-      const response = await fetch(`${apiUrl}/api/verify/${address}`, {
-        method: 'GET',
+      // Switched to POST to match useIntegrity implementation
+      const response = await fetch(`${apiUrl}/api/verify`, {
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ address }),
         signal
       });
 
@@ -93,7 +92,6 @@ export function useTrustChain(options = {}) {
       }
     } catch (err) {
       if (!signal?.aborted) {
-        // Ignore abort errors
         if (err.name === 'AbortError') return;
 
         console.error('TrustChain Verification Failed:', err);
@@ -113,18 +111,29 @@ export function useTrustChain(options = {}) {
     const abortController = new AbortController();
     fetchData(abortController.signal);
 
+    return () => {
+      abortController.abort();
+    };
+  }, [fetchData]);
+
+  // Auto-polling for PROBATIONARY status or if refreshInterval is set
+  useEffect(() => {
     let intervalId;
+
     if (refreshInterval > 0) {
-      intervalId = setInterval(() => {
-        fetchData(abortController.signal);
-      }, refreshInterval);
+        intervalId = setInterval(() => {
+            fetchData(undefined, true); // Silent refresh
+        }, refreshInterval);
+    } else if (data?.status === 'PROBATIONARY') {
+        intervalId = setInterval(() => {
+            fetchData(undefined, true); // Silent refresh
+        }, 5000); // Poll every 5 seconds
     }
 
     return () => {
-      abortController.abort();
       if (intervalId) clearInterval(intervalId);
     };
-  }, [fetchData, refreshInterval]);
+  }, [refreshInterval, data?.status, fetchData]);
 
   return {
     data,
