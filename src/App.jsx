@@ -8,7 +8,7 @@ import { useIntegrity } from './hooks/useIntegrity';
 import { getStatusDisplay } from './utils/statusDisplay';
 import './App.css';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://trustchain-2-backend.vercel.app';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://trustchain-sovereign-backend.vercel.app';
 
 function WalletIntegrity() {
   const { connected, publicKey } = useWallet();
