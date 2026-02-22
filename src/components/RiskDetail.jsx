@@ -1,7 +1,7 @@
 import './RiskDetail.css';
 import { getStatusDisplay } from '../utils/statusDisplay';
 
-const RiskDetail = ({ status, giniScore, hhiScore, syncIndex, reason, latencyMs, loading, error }) => {
+const RiskDetail = ({ status, giniScore, hhiScore, syncIndex, reason, latencyMs, loading, error, refetch }) => {
   if (loading) {
     return (
       <div className="risk-detail-card">
@@ -14,6 +14,9 @@ const RiskDetail = ({ status, giniScore, hhiScore, syncIndex, reason, latencyMs,
   }
 
   const display = getStatusDisplay(status, giniScore, error);
+  const isProbationary = status === 'PROBATIONARY';
+  // Check if scores are effectively null/insufficient
+  const hasInsufficientData = isProbationary && (giniScore == null || isNaN(giniScore));
 
   return (
     <div className="risk-detail-card">
@@ -26,6 +29,11 @@ const RiskDetail = ({ status, giniScore, hhiScore, syncIndex, reason, latencyMs,
         {error ? (
           <div className="insight-box" style={{ color: '#ef4444', borderColor: '#ef4444', background: 'rgba(239, 68, 68, 0.1)' }}>
             <strong>Connection Error:</strong> {error}
+            {refetch && (
+                <div style={{ marginTop: '0.5rem' }}>
+                    <button onClick={refetch} className="refetch-button">Retry</button>
+                </div>
+            )}
           </div>
         ) : (
           <div className="metrics-container">
@@ -36,10 +44,24 @@ const RiskDetail = ({ status, giniScore, hhiScore, syncIndex, reason, latencyMs,
               </div>
             )}
 
+            {/* Probabilty Refetch Button */}
+            {isProbationary && refetch && (
+                 <div style={{ marginBottom: '10px' }}>
+                    <button onClick={refetch} className="refetch-button">Refresh Status</button>
+                 </div>
+            )}
+
             {/* Gini Score with Tooltip */}
             <div className="tooltip-container">
-              <small>Personal Gini Score: {Number.isFinite(giniScore) ? giniScore.toFixed(4) : 'N/A'}</small>
-              <span className="tooltip-text">Gini Coefficient: Measures wealth inequality (0-1). Lower is better distribution.</span>
+              <small>
+                  Personal Gini Score: {Number.isFinite(giniScore) ? giniScore.toFixed(4) : (hasInsufficientData ? 'N/A' : 'N/A')}
+                  {hasInsufficientData && <span style={{marginLeft: '5px', fontSize: '0.8em', color: '#fbbf24'}}>(Insufficient Data)</span>}
+              </small>
+              <span className="tooltip-text">
+                  {hasInsufficientData
+                    ? "Probationary: Insufficient Data. Wallet has too few transactions (0-2) for reliable scoring."
+                    : "Gini Coefficient: Measures wealth inequality (0-1). Lower is better distribution."}
+              </span>
             </div>
 
             {/* HHI Score */}
