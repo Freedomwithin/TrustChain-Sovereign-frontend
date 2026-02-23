@@ -6,6 +6,8 @@ def verify_ui():
         browser = p.chromium.launch(headless=True)
         page = browser.new_page()
         try:
+            # Set up mock before navigation
+            page.add_init_script("window.forceDemoWallet = true;")
             page.goto("http://localhost:5173")
 
             # Wait for page to load
@@ -22,7 +24,7 @@ def verify_ui():
             # Click Simulation Toggle
             print("Toggling Simulation Mode...")
             page.click(".slider")
-            time.sleep(1) # Wait for animation
+            page.wait_for_selector(".switch input:checked", state="attached")
 
             # Verify RiskDetail changes
             print("Verifying RiskDetail Simulation Mode...")
@@ -34,14 +36,8 @@ def verify_ui():
 
             # Wait for toast
             print("Waiting for Toast...")
-            time.sleep(1) # Give it time to render
-
-            # Check if toast text is present in page content
-            content = page.content()
-            if "Integrity Score committed" in content:
-                print("Toast detected in DOM.")
-            else:
-                print("Toast NOT detected in DOM.")
+            page.wait_for_selector("div:has-text('Integrity Score committed')")
+            print("Toast detected in DOM.")
 
             # Screenshot
             print("Taking Screenshot...")
