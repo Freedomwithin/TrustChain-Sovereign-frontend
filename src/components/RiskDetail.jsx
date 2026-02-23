@@ -1,7 +1,7 @@
 import './RiskDetail.css';
 import { getStatusDisplay } from '../utils/statusDisplay';
 
-const RiskDetail = ({ status, giniScore, hhiScore, syncIndex, reason, latencyMs, loading, error, refetch, totalScore, fairScaleSocial }) => {
+const RiskDetail = ({ status, giniScore, hhiScore, syncIndex, reason, latencyMs, loading, error, refetch, totalScore, fairScaleSocial, isSimulationMode }) => {
   if (loading) {
     return (
       <div className="risk-detail-card">
@@ -13,7 +13,11 @@ const RiskDetail = ({ status, giniScore, hhiScore, syncIndex, reason, latencyMs,
     );
   }
 
-  const display = getStatusDisplay(status, giniScore, error);
+  let display = getStatusDisplay(status, giniScore, error);
+  if (isSimulationMode) {
+    display = { label: 'HIGH VOLATILITY WARNING', className: 'simulation-warning', color: 'red' };
+  }
+
   const isProbationary = status === 'PROBATIONARY';
   // Check if scores are effectively null/insufficient
   const hasInsufficientData = isProbationary && (giniScore == null || isNaN(giniScore));
@@ -24,7 +28,7 @@ const RiskDetail = ({ status, giniScore, hhiScore, syncIndex, reason, latencyMs,
   const showScore = totalScore !== undefined && totalScore !== null;
 
   return (
-    <div className="risk-detail-card">
+    <div className={`risk-detail-card ${isSimulationMode ? 'simulation-active' : ''}`}>
       <h3>Your Wallet Integrity</h3>
       <div className="risk-detail-content">
         <span className={`risk-badge ${display.className}`}>
@@ -44,7 +48,8 @@ const RiskDetail = ({ status, giniScore, hhiScore, syncIndex, reason, latencyMs,
           <div className="metrics-container">
             {/* System Latency */}
             {latencyMs != null && (
-              <div style={{ fontSize: '0.75rem', color: '#9ca3af', marginBottom: '0.8rem', fontFamily: 'monospace' }}>
+              <div style={{ fontSize: '0.75rem', color: '#9ca3af', marginBottom: '0.8rem', fontFamily: 'monospace', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                <span className="pulsing-dot" style={{ width: '8px', height: '8px', background: '#00ffa3', borderRadius: '50%', display: 'inline-block' }}></span>
                 [SENTINEL_LATENCY]: {latencyMs.toFixed(0)}ms
               </div>
             )}

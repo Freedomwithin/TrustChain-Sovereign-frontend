@@ -3,6 +3,7 @@ window.Buffer = window.Buffer || Buffer;
 import { useState, useEffect } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import Navbar from './components/Navbar.jsx';
+import Sidebar from './components/Sidebar.jsx';
 import RiskDetail from './components/RiskDetail.jsx';
 import InstitutionalInsights from './components/InstitutionalInsights.jsx';
 import { useTrustChain } from './sdk/useTrustChain';
@@ -11,7 +12,7 @@ import './App.css';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://trustchain-sovereign-backend.vercel.app';
 
-function WalletIntegrity() {
+function WalletIntegrity({ isSimulationMode, showToast }) {
   const { connected, publicKey } = useWallet();
 
   const { data, loading, error, refetch } = useTrustChain();
@@ -59,8 +60,14 @@ function WalletIntegrity() {
         refetch={refetch}
         totalScore={totalScore}
         fairScaleSocial={fairScaleSocial}
+        isSimulationMode={isSimulationMode}
       />
-      <InstitutionalInsights isElite={isElite} />
+      <InstitutionalInsights
+        isElite={isElite}
+        giniScore={giniScore}
+        hhiScore={hhiScore}
+        showToast={showToast}
+      />
     </>
   );
 }
@@ -103,9 +110,46 @@ const pools = [
   { id: 'RAY-SOL', name: 'RAY-SOL Pool' },
 ];
 
+function Toast({ message }) {
+  if (!message) return null;
+  return (
+    <div style={{
+      position: 'fixed',
+      bottom: '20px',
+      right: '20px',
+      background: 'rgba(13, 17, 23, 0.95)',
+      border: '1px solid #00ffa3',
+      color: '#00ffa3',
+      padding: '1rem 2rem',
+      borderRadius: '2px',
+      boxShadow: '0 0 20px rgba(0, 255, 163, 0.2)',
+      zIndex: 2000,
+      display: 'flex',
+      alignItems: 'center',
+      gap: '1rem',
+      fontFamily: 'monospace',
+      backdropFilter: 'blur(8px)'
+    }}>
+      <div style={{ display: 'flex' }}>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </div>
+      <div>{message}</div>
+    </div>
+  );
+}
+
 function App() {
   const [poolIntegrity, setPoolIntegrity] = useState({});
   const [loadingPools, setLoadingPools] = useState(true);
+  const [isSimulationMode, setSimulationMode] = useState(false);
+  const [toastMessage, setToastMessage] = useState(null);
+
+  const showToast = (msg) => {
+    setToastMessage(msg);
+    setTimeout(() => setToastMessage(null), 3000);
+  };
 
   useEffect(() => {
     setLoadingPools(true);
@@ -136,22 +180,32 @@ function App() {
 
   return (
     <div className="App">
-      <Navbar />
-      <div className="hero-content">
-        <h1>TrustChain - Live Solana Pools</h1>
-        <WalletIntegrity />
-        <div className="pool-grid">
-          {pools.map(pool => (
-            <div key={pool.id} className="pool-card">
-              <h3>{pool.name}</h3>
-              <PoolIntegrityBadge
-                integrity={poolIntegrity[pool.id]}
-                loading={loadingPools}
-              />
-            </div>
-          ))}
+      <Sidebar
+        isSimulationMode={isSimulationMode}
+        toggleSimulationMode={() => setSimulationMode(!isSimulationMode)}
+      />
+      <div className="main-content" style={{ marginLeft: '280px', width: 'calc(100% - 280px)' }}>
+        <Navbar />
+        <div className="hero-content">
+          <h1>TrustChain - Live Solana Pools</h1>
+          <WalletIntegrity
+            isSimulationMode={isSimulationMode}
+            showToast={showToast}
+          />
+          <div className="pool-grid">
+            {pools.map(pool => (
+              <div key={pool.id} className="pool-card">
+                <h3>{pool.name}</h3>
+                <PoolIntegrityBadge
+                  integrity={poolIntegrity[pool.id]}
+                  loading={loadingPools}
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
+      <Toast message={toastMessage} />
     </div>
   );
 }
