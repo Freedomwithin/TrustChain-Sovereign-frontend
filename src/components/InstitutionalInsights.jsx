@@ -49,6 +49,9 @@ const InstitutionalInsights = ({ isElite, giniScore, hhiScore, showToast }) => {
     );
   }
 
+  const clampedGini = Math.max(0, Math.min(1, giniScore || 0));
+  const clampedHhi = Math.max(0, Math.min(1, hhiScore || 0));
+
   return (
     <div className="institutional-insights-unlocked" style={{
         marginTop: '2rem',
@@ -78,8 +81,8 @@ const InstitutionalInsights = ({ isElite, giniScore, hhiScore, showToast }) => {
 
                 {/* Bars logic: Loyal (Green) vs Mercenary (Red) */}
                 {/* Use mock or derived values if real data unavailable, ensuring visible bars */}
-                <rect x="70" y={130 - Math.min(100, (1 - (hhiScore || 0)) * 90)} width="50" height={Math.min(100, (1 - (hhiScore || 0)) * 90)} fill="rgba(0, 255, 163, 0.8)" />
-                <rect x="190" y={130 - Math.min(100, ((hhiScore || 0) * 200 + (giniScore || 0) * 50))} width="50" height={Math.min(100, ((hhiScore || 0) * 200 + (giniScore || 0) * 50))} fill="rgba(239, 68, 68, 0.8)" />
+                <rect x="70" y={130 - Math.min(100, (1 - clampedHhi) * 90)} width="50" height={Math.min(100, (1 - clampedHhi) * 90)} fill="rgba(0, 255, 163, 0.8)" />
+                <rect x="190" y={130 - Math.min(100, (clampedHhi * 200 + clampedGini * 50))} width="50" height={Math.min(100, (clampedHhi * 200 + clampedGini * 50))} fill="rgba(239, 68, 68, 0.8)" />
 
                 {/* Labels */}
                 <text x="95" y="145" fill="#9ca3af" fontSize="10" textAnchor="middle" fontFamily="monospace">LOYAL</text>

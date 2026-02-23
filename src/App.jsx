@@ -1,6 +1,6 @@
 import { Buffer } from 'buffer';
 window.Buffer = window.Buffer || Buffer;
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import Navbar from './components/Navbar.jsx';
 import Sidebar from './components/Sidebar.jsx';
@@ -13,7 +13,9 @@ import './App.css';
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://trustchain-sovereign-backend.vercel.app';
 
 function WalletIntegrity({ isSimulationMode, showToast }) {
-  const { connected, publicKey } = useWallet();
+  const { connected: walletConnected, publicKey } = useWallet();
+  const isForcedDemo = typeof window !== 'undefined' && window.forceDemoWallet;
+  const connected = walletConnected || isForcedDemo;
 
   const { data, loading, error, refetch } = useTrustChain();
 
@@ -29,7 +31,7 @@ function WalletIntegrity({ isSimulationMode, showToast }) {
   let fairScaleSocial = data?.fairScaleSocial != null ? parseFloat(data.fairScaleSocial) : null;
 
   // --- INSTITUTIONAL DEMO OVERRIDE ---
-  const isDemoWallet = publicKey?.toBase58() === "FBbjMhKtg1iyy83CeHaieqEFqw586i3WYG4zCcnXr7tc";
+  const isDemoWallet = (publicKey?.toBase58() === "FBbjMhKtg1iyy83CeHaieqEFqw586i3WYG4zCcnXr7tc") || isForcedDemo;
 
   if (isDemoWallet) {
     status = "VERIFIED";
@@ -145,11 +147,26 @@ function App() {
   const [loadingPools, setLoadingPools] = useState(true);
   const [isSimulationMode, setSimulationMode] = useState(false);
   const [toastMessage, setToastMessage] = useState(null);
+  const toastTimeoutRef = useRef(null);
 
   const showToast = (msg) => {
+    if (toastTimeoutRef.current) {
+      clearTimeout(toastTimeoutRef.current);
+    }
     setToastMessage(msg);
-    setTimeout(() => setToastMessage(null), 3000);
+    toastTimeoutRef.current = setTimeout(() => {
+      setToastMessage(null);
+      toastTimeoutRef.current = null;
+    }, 3000);
   };
+
+  useEffect(() => {
+    return () => {
+      if (toastTimeoutRef.current) {
+        clearTimeout(toastTimeoutRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     setLoadingPools(true);
@@ -182,9 +199,9 @@ function App() {
     <div className="App">
       <Sidebar
         isSimulationMode={isSimulationMode}
-        toggleSimulationMode={() => setSimulationMode(!isSimulationMode)}
+        toggleSimulationMode={() => setSimulationMode(prev => !prev)}
       />
-      <div className="main-content" style={{ marginLeft: '280px', width: 'calc(100% - 280px)' }}>
+      <div className="main-content" style={{ marginLeft: 'var(--sidebar-width)', width: 'calc(100% - var(--sidebar-width))' }}>
         <Navbar />
         <div className="hero-content">
           <h1>TrustChain - Live Solana Pools</h1>

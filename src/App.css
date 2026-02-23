@@ -1,4 +1,8 @@
 /* Base Styles */
+:root {
+  --sidebar-width: 280px;
+}
+
 * {
   margin: 0;
   padding: 0;
