@@ -4,7 +4,8 @@ import { useState, useEffect } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import Navbar from './components/Navbar.jsx';
 import RiskDetail from './components/RiskDetail.jsx';
-import { useTrustChain } from './sdk/useTrustChain';
+import { InstitutionalInsights } from './components/InstitutionalInsights';
+import { useTrustChain } from './hooks/useTrustChain';
 import { getStatusDisplay } from './utils/statusDisplay';
 import './App.css';
 
@@ -13,7 +14,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://trustchain-so
 function WalletIntegrity() {
   const { connected, publicKey } = useWallet();
 
-  const { data, loading, error, refetch } = useTrustChain();
+  const { data, loading, error, refetch, isElite } = useTrustChain();
 
   // Destructure data safely
   let status = data?.status || null;
@@ -24,32 +25,24 @@ function WalletIntegrity() {
   let reason = data?.reason || null;
   let latencyMs = data?.latencyMs != null ? parseFloat(data.latencyMs) : null;
 
-  // --- 🛡️ INSTITUTIONAL DEMO OVERRIDE ---
-  const isDemoWallet = publicKey?.toBase58() === "FBbjMhKtg1iyy83CeHaieqEFqw586i3WYG4zCcnXr7tc";
-
-  if (isDemoWallet) {
-    status = "VERIFIED";
-    giniScore = 0.125;
-    hhiScore = 0.082;
-    syncIndex = 0.150;
-    reason = "Institutional Integrity Confirmed via Notary";
-  }
-  // --- END OVERRIDE ---
-
-  if (!connected) return null;
+  // if (!connected) return null;
 
   return (
-    <RiskDetail
-      status={status}
-      giniScore={giniScore}
-      hhiScore={hhiScore}
-      syncIndex={syncIndex}
-      reason={reason}
-      latencyMs={latencyMs}
-      loading={loading}
-      error={error}
-      refetch={refetch}
-    />
+    <>
+      <RiskDetail
+        status={status}
+        giniScore={giniScore}
+        hhiScore={hhiScore}
+        syncIndex={syncIndex}
+        reason={reason}
+        latencyMs={latencyMs}
+        loading={loading}
+        error={error}
+        refetch={refetch}
+        isElite={isElite}
+      />
+      <InstitutionalInsights isElite={isElite} />
+    </>
   );
 }
 

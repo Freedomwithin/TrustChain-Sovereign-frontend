@@ -1,7 +1,7 @@
 import './RiskDetail.css';
 import { getStatusDisplay } from '../utils/statusDisplay';
 
-const RiskDetail = ({ status, giniScore, hhiScore, syncIndex, reason, latencyMs, loading, error, refetch }) => {
+const RiskDetail = ({ status, giniScore, hhiScore, syncIndex, reason, latencyMs, loading, error, refetch, isElite }) => {
   if (loading) {
     return (
       <div className="risk-detail-card">
@@ -13,7 +13,7 @@ const RiskDetail = ({ status, giniScore, hhiScore, syncIndex, reason, latencyMs,
     );
   }
 
-  const display = getStatusDisplay(status, giniScore, error);
+  const display = getStatusDisplay(status, giniScore, error, isElite);
   const isProbationary = status === 'PROBATIONARY';
   // Check if scores are effectively null/insufficient
   const hasInsufficientData = isProbationary && (giniScore == null || isNaN(giniScore));

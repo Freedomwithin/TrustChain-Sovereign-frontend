@@ -1,0 +1,150 @@
+.institutional-insights-container {
+  background: rgba(13, 13, 18, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 2rem;
+  margin-top: 2rem;
+  width: 100%;
+  max-width: 800px;
+  transition: all 0.3s ease;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.institutional-insights-container.locked {
+  border-color: rgba(255, 255, 255, 0.05);
+}
+
+.institutional-insights-container.unlocked {
+  border-color: rgba(0, 255, 163, 0.3);
+  box-shadow: 0 0 30px rgba(0, 255, 163, 0.05);
+}
+
+.institutional-insights-container .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 1rem;
+}
+
+.institutional-insights-container .header h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+  background: none;
+  -webkit-text-fill-color: #fff;
+  text-shadow: none;
+}
+
+.status-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.status-badge.elite {
+  background: rgba(0, 255, 163, 0.1);
+  color: #00ffa3;
+  border: 1px solid rgba(0, 255, 163, 0.2);
+}
+
+.status-badge.locked {
+  background: rgba(255, 255, 255, 0.05);
+  color: #888;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Gated Content */
+.gated-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.lock-icon {
+  color: rgba(255, 255, 255, 0.2);
+  margin-bottom: 1.5rem;
+}
+
+.gated-content h3 {
+  font-size: 1.2rem;
+  color: #fff;
+  margin-bottom: 1rem;
+}
+
+.gated-message {
+  color: #888;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  max-width: 400px;
+  margin-bottom: 2rem;
+}
+
+.requirement {
+  display: block;
+  margin-top: 0.5rem;
+  color: #aaa;
+  font-family: monospace;
+  font-size: 0.85rem;
+}
+
+.learn-more-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  cursor: not-allowed;
+  opacity: 0.5;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+/* Unlocked Content */
+.insights-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  text-align: left;
+}
+
+.insight-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.insight-card h3 {
+  font-size: 1rem;
+  color: #ccc;
+  margin-bottom: 1rem;
+}
+
+.placeholder-chart {
+  height: 100px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0.02) 100%);
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.insight-card p {
+  font-size: 0.85rem;
+  color: #888;
+  line-height: 1.4;
+}
+
+@media (max-width: 600px) {
+  .insights-content {
+    grid-template-columns: 1fr;
+  }
+}

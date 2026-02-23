@@ -5,14 +5,19 @@ export const PROBATIONARY_THRESHOLD = 0.5;
 export const STATUS_THEMES = {
   ERROR: { label: 'INSUFFICIENT DATA', className: 'error', color: 'slate' },
   OFFLINE: { label: 'SENTINEL OFFLINE', className: 'error', color: 'slate' },
+  ELITE: { label: 'ELITE VERIFIED', className: 'elite', color: 'cyan' },
   VERIFIED: { label: 'TRUSTED ACTOR', className: 'verified', color: 'neon-green' },
   PROBATIONARY: { label: 'NEW ENTITY', className: 'probationary', color: 'gold' },
   SYBIL: { label: 'POTENTIAL SYBIL 🚨', className: 'sybil', color: 'red' }
 };
 
-export const getStatusDisplay = (status, score, error) => {
+export const getStatusDisplay = (status, score, error, isElite = false) => {
   if (error) {
       return STATUS_THEMES.OFFLINE;
+  }
+
+  if (isElite) {
+      return STATUS_THEMES.ELITE;
   }
 
   if (status === 'ERROR' || score == null || Number.isNaN(score)) {

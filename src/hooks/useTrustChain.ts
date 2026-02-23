@@ -3,19 +3,43 @@ import { useWallet } from '@solana/wallet-adapter-react';
 
 const DEFAULT_API_URL = import.meta.env.VITE_API_BASE_URL || 'https://trustchain-sovereign-backend.vercel.app';
 
+export interface TrustChainScores {
+  gini: number | null;
+  hhi: number | null;
+  syncIndex: number | null;
+  weightedScore?: number;
+}
+
+export interface TrustChainData {
+  status: string | null;
+  scores: TrustChainScores;
+  reason: string | null;
+  latencyMs: number | null;
+}
+
+export interface UseTrustChainOptions {
+  mock?: boolean;
+  refreshInterval?: number;
+  address?: string;
+  apiUrl?: string;
+}
+
+export interface UseTrustChainReturn {
+  data: TrustChainData | null;
+  loading: boolean;
+  error: string | null;
+  refetch: () => Promise<void>;
+  isElite: boolean;
+  weightedScore: number | null;
+}
+
 /**
  * useTrustChain Hook
  *
  * A composable hook for integrating TrustChain Sentinel integrity checks.
- *
- * @param {Object} options - Configuration options.
- * @param {boolean} [options.mock=false] - If true, returns mock data without network calls.
- * @param {number} [options.refreshInterval=0] - Interval in ms to refresh data. 0 disables auto-refresh.
- * @param {string} [options.address] - Wallet address to verify. Defaults to connected wallet.
- * @param {string} [options.apiUrl] - Custom API Base URL.
- * @returns {Object} { data, loading, error, refetch }
+ * Now supports FairScale weighted scores and Elite Tier logic.
  */
-export function useTrustChain(options = {}) {
+export function useTrustChain(options: UseTrustChainOptions = {}): UseTrustChainReturn {
   const {
     mock = false,
     refreshInterval = 0,
@@ -28,11 +52,11 @@ export function useTrustChain(options = {}) {
   // Determine target address: prop > connected wallet
   const address = propAddress || (connected && publicKey ? publicKey.toBase58() : null);
 
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [data, setData] = useState<TrustChainData | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const fetchData = useCallback(async (signal, isSilent = false) => {
+  const fetchData = useCallback(async (signal?: AbortSignal, isSilent = false) => {
     if (!address && !mock) {
         setData(null);
         return;
@@ -51,6 +75,8 @@ export function useTrustChain(options = {}) {
                     clearTimeout(timer);
                     reject(new DOMException('Aborted', 'AbortError'));
                 });
+            } else {
+                 resolve(null);
             }
         });
       } catch (e) {
@@ -61,7 +87,7 @@ export function useTrustChain(options = {}) {
 
       setData({
         status: 'VERIFIED',
-        scores: { gini: 0.15, hhi: 0.05, syncIndex: 0.1 },
+        scores: { gini: 0.15, hhi: 0.05, syncIndex: 0.1, weightedScore: 88 },
         reason: 'Mock verification (SDK Mock Mode)',
         latencyMs: 15
       });
@@ -71,7 +97,6 @@ export function useTrustChain(options = {}) {
 
     // Real API Call
     try {
-      // Switched to POST to match useIntegrity implementation
       const response = await fetch(`${apiUrl}/api/verify`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -90,7 +115,7 @@ export function useTrustChain(options = {}) {
         setData(result);
         setLoading(false);
       }
-    } catch (err) {
+    } catch (err: any) {
       if (!signal?.aborted) {
         if (err.name === 'AbortError') return;
 
@@ -116,9 +141,9 @@ export function useTrustChain(options = {}) {
     };
   }, [fetchData]);
 
-  // Auto-polling for PROBATIONARY status or if refreshInterval is set
+  // Auto-polling
   useEffect(() => {
-    let intervalId;
+    let intervalId: any;
 
     if (refreshInterval > 0) {
         intervalId = setInterval(() => {
@@ -135,10 +160,16 @@ export function useTrustChain(options = {}) {
     };
   }, [refreshInterval, data?.status, fetchData]);
 
+  // Derived state
+  const weightedScore = data?.scores?.weightedScore ?? null;
+  const isElite = weightedScore !== null && weightedScore >= 85;
+
   return {
     data,
     loading,
     error,
-    refetch: () => fetchData()
+    refetch: async () => await fetchData(),
+    isElite,
+    weightedScore
   };
 }
