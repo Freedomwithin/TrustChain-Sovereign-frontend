@@ -7,7 +7,7 @@ export const STATUS_THEMES = {
   OFFLINE: { label: 'SENTINEL OFFLINE', className: 'error', color: 'slate' },
   VERIFIED: { label: 'TRUSTED ACTOR', className: 'verified', color: 'neon-green' },
   PROBATIONARY: { label: 'NEW ENTITY', className: 'probationary', color: 'gold' },
-  SYBIL: { label: 'POTENTIAL SYBIL 🚨', className: 'sybil', color: 'red' }
+  SYBIL: { label: 'POTENTIAL SYBIL [ALERT]', className: 'sybil', color: 'red' }
 };
 
 export const getStatusDisplay = (status, score, error) => {
