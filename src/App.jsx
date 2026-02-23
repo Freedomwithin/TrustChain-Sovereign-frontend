@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import Navbar from './components/Navbar.jsx';
 import RiskDetail from './components/RiskDetail.jsx';
+import InstitutionalInsights from './components/InstitutionalInsights.jsx';
 import { useTrustChain } from './sdk/useTrustChain';
 import { getStatusDisplay } from './utils/statusDisplay';
 import './App.css';
@@ -23,8 +24,10 @@ function WalletIntegrity() {
   let syncIndex = scores.syncIndex != null ? parseFloat(scores.syncIndex) : null;
   let reason = data?.reason || null;
   let latencyMs = data?.latencyMs != null ? parseFloat(data.latencyMs) : null;
+  let totalScore = data?.totalScore != null ? parseFloat(data.totalScore) : null;
+  let fairScaleSocial = data?.fairScaleSocial != null ? parseFloat(data.fairScaleSocial) : null;
 
-  // --- 🛡️ INSTITUTIONAL DEMO OVERRIDE ---
+  // --- INSTITUTIONAL DEMO OVERRIDE ---
   const isDemoWallet = publicKey?.toBase58() === "FBbjMhKtg1iyy83CeHaieqEFqw586i3WYG4zCcnXr7tc";
 
   if (isDemoWallet) {
@@ -33,23 +36,32 @@ function WalletIntegrity() {
     hhiScore = 0.082;
     syncIndex = 0.150;
     reason = "Institutional Integrity Confirmed via Notary";
+    totalScore = 95;
+    fairScaleSocial = 80;
   }
   // --- END OVERRIDE ---
 
   if (!connected) return null;
 
+  const isElite = totalScore !== null && totalScore >= 85;
+
   return (
-    <RiskDetail
-      status={status}
-      giniScore={giniScore}
-      hhiScore={hhiScore}
-      syncIndex={syncIndex}
-      reason={reason}
-      latencyMs={latencyMs}
-      loading={loading}
-      error={error}
-      refetch={refetch}
-    />
+    <>
+      <RiskDetail
+        status={status}
+        giniScore={giniScore}
+        hhiScore={hhiScore}
+        syncIndex={syncIndex}
+        reason={reason}
+        latencyMs={latencyMs}
+        loading={loading}
+        error={error}
+        refetch={refetch}
+        totalScore={totalScore}
+        fairScaleSocial={fairScaleSocial}
+      />
+      <InstitutionalInsights isElite={isElite} />
+    </>
   );
 }
 
@@ -126,7 +138,7 @@ function App() {
     <div className="App">
       <Navbar />
       <div className="hero-content">
-        <h1>🚀 TrustChain - Live Solana Pools</h1>
+        <h1>TrustChain - Live Solana Pools</h1>
         <WalletIntegrity />
         <div className="pool-grid">
           {pools.map(pool => (
