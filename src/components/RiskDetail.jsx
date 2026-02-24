@@ -1,7 +1,7 @@
 import './RiskDetail.css';
 import { getStatusDisplay } from '../utils/statusDisplay';
 
-const RiskDetail = ({ status, giniScore, hhiScore, syncIndex, reason, latencyMs, loading, error, refetch }) => {
+const RiskDetail = ({ status, giniScore, hhiScore, syncIndex, reason, latencyMs, loading, error, refetch, totalScore, fairScaleSocial, isSimulationMode }) => {
   if (loading) {
     return (
       <div className="risk-detail-card">
@@ -13,13 +13,22 @@ const RiskDetail = ({ status, giniScore, hhiScore, syncIndex, reason, latencyMs,
     );
   }
 
-  const display = getStatusDisplay(status, giniScore, error);
+  let display = getStatusDisplay(status, giniScore, error);
+  if (isSimulationMode) {
+    display = { label: 'HIGH VOLATILITY WARNING', className: 'simulation-warning', color: 'red' };
+  }
+
   const isProbationary = status === 'PROBATIONARY';
   // Check if scores are effectively null/insufficient
   const hasInsufficientData = isProbationary && (giniScore == null || isNaN(giniScore));
 
+  // Calculate contributions for the dual progress bar
+  const socialContrib = (fairScaleSocial !== undefined && fairScaleSocial !== null) ? (fairScaleSocial * 0.3) : 0;
+  const behavioralContrib = (totalScore !== undefined && totalScore !== null) ? Math.max(0, totalScore - socialContrib) : 0;
+  const showScore = totalScore !== undefined && totalScore !== null;
+
   return (
-    <div className="risk-detail-card">
+    <div className={`risk-detail-card ${isSimulationMode ? 'simulation-active' : ''}`}>
       <h3>Your Wallet Integrity</h3>
       <div className="risk-detail-content">
         <span className={`risk-badge ${display.className}`}>
@@ -39,9 +48,51 @@ const RiskDetail = ({ status, giniScore, hhiScore, syncIndex, reason, latencyMs,
           <div className="metrics-container">
             {/* System Latency */}
             {latencyMs != null && (
-              <div style={{ fontSize: '0.75rem', color: '#9ca3af', marginBottom: '0.8rem', fontFamily: 'monospace' }}>
+              <div style={{ fontSize: '0.75rem', color: '#9ca3af', marginBottom: '0.8rem', fontFamily: 'monospace', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                <span className="pulsing-dot" style={{ width: '8px', height: '8px', background: '#00ffa3', borderRadius: '50%', display: 'inline-block' }}></span>
                 [SENTINEL_LATENCY]: {latencyMs.toFixed(0)}ms
               </div>
+            )}
+
+            {/* Total Score Display & Dual Progress Bar */}
+            {showScore && (
+              <>
+                <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
+                  <div style={{ fontSize: '2rem', fontWeight: 'bold', color: '#fff', lineHeight: 1 }}>
+                    {totalScore} <span style={{ fontSize: '1rem', color: '#9ca3af', fontWeight: 'normal' }}>/ 100</span>
+                  </div>
+                  <div style={{ fontSize: '0.8rem', color: '#9ca3af', marginTop: '0.2rem' }}>Integrity Score</div>
+                </div>
+
+                <div className="hhi-bar-container" style={{ marginBottom: '1.5rem', maxWidth: '100%' }}>
+                   <div className="hhi-bar-labels" style={{ fontSize: '0.7rem', color: '#9ca3af' }}>
+                      <span>Behavioral (70%)</span>
+                      <span>Social (30%)</span>
+                    </div>
+                   <div className="hhi-track" style={{ display: 'flex' }}>
+                      <div
+                        style={{
+                          width: `${behavioralContrib}%`,
+                          height: '100%',
+                          background: '#34d399', // Green for Behavioral
+                          transition: 'width 0.5s ease'
+                        }}
+                      />
+                      <div
+                        style={{
+                          width: `${socialContrib}%`,
+                          height: '100%',
+                          background: '#60a5fa', // Blue for Social
+                          transition: 'width 0.5s ease'
+                        }}
+                      />
+                   </div>
+                   <div className="hhi-bar-labels" style={{ marginTop: '0.2rem', fontSize: '0.7rem' }}>
+                      <span style={{ color: '#34d399' }}>{behavioralContrib.toFixed(1)}</span>
+                      <span style={{ color: '#60a5fa' }}>{socialContrib.toFixed(1)}</span>
+                   </div>
+                </div>
+              </>
             )}
 
             {/* Probabilty Refetch Button */}
@@ -91,7 +142,7 @@ const RiskDetail = ({ status, giniScore, hhiScore, syncIndex, reason, latencyMs,
             {/* Always show the insight box if there is a reason OR a risk status */}
             {(reason || ['SYBIL', 'PROBATIONARY', 'VERIFIED'].includes(status)) && (
               <div className="insight-box">
-                <strong>⚠️ Agent Insight:</strong> {reason || "Sovereign patterns verified."}
+                <strong>Agent Insight:</strong> {reason || "Sovereign patterns verified."}
 
                 {syncIndex !== null && syncIndex !== undefined && (
                   <div className="tooltip-container" style={{ display: 'block', marginTop: '0.5rem', borderBottom: 'none' }}>

@@ -42,6 +42,6 @@ describe('getStatusDisplay', () => {
     });
 
     test('returns POTENTIAL SYBIL for high scores', () => {
-        expect(getStatusDisplay('OK', PROBATIONARY_THRESHOLD + 0.1)).toEqual(expect.objectContaining({ label: 'POTENTIAL SYBIL 🚨', color: 'red' }));
+        expect(getStatusDisplay('OK', PROBATIONARY_THRESHOLD + 0.1)).toEqual(expect.objectContaining({ label: 'POTENTIAL SYBIL [ALERT]', color: 'red' }));
     });
 });
