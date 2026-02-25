@@ -13,6 +13,29 @@
 
 ---
 
+## Judging Quick-Start
+
+To replicate the full behavioral notarization and governance simulation in under 5 minutes, please follow the [Quick-Start Demo Guide](QUICKSTART_judges.md).
+
+---
+
+## Updates
+
+### February 2026 — Governance & SDK
+
+**Governance Standing HUD (`GovernanceStanding.jsx`)**  
+Added the `GovernanceStanding.jsx` component that maps notarized on-chain scores to visible **Voter Weight Multipliers** — for example, a Steward-tier wallet displays a `1.5x` multiplier on its token vote weight. This component is the visual bridge between TrustChain's behavioral reputation layer and active DAO governance participation.
+
+**"Simulate Vote" Interaction**  
+Implemented a live demo feature that allows users to test their behavioral multiplier against their token balance. The system pulls `voterWeightMultiplier` in real time from the Anchor Notary PDA and applies it to the wallet's token balance, making governance impact tangible and verifiable without requiring a live proposal.
+
+**`useTrustChain()` SDK Expansion**  
+The hook now supports two additional flags for seamless integration with external Solana governance protocols:
+- `voterWeightMultiplier` — governance multiplier derived from the wallet's notarized integrity tier
+- `isQualified` — boolean for simple governance gating (e.g., minimum VERIFIED status required to participate)
+
+---
+
 ## What This Is
 
 This repository contains the **frontend only**: the React 18 / Vite / TailwindCSS institutional monitoring HUD that surfaces TrustChain-Sovereign's real-time behavioral integrity signals.
@@ -93,10 +116,10 @@ The frontend consumes backend signals via the `@trustchain/web3-react` SDK:
 ```js
 import { useTrustChain } from '@trustchain/web3-react';
 
-const { status, gini, syncIndex, totalScore } = useTrustChain(walletAddress);
+const { status, gini, syncIndex, totalScore, voterWeightMultiplier, isQualified } = useTrustChain(walletAddress);
 ```
 
-The `useTrustChain()` hook returns `status`, `gini`, `syncIndex`, and `totalIntegrityScore` in a single call, abstracting all backend communication and caching logic from the component layer.
+The `useTrustChain()` hook returns `status`, `gini`, `syncIndex`, `totalIntegrityScore`, `voterWeightMultiplier`, and `isQualified` in a single call, abstracting all backend communication and caching logic from the component layer.
 
 ---
 
