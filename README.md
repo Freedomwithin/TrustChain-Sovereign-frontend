@@ -21,6 +21,22 @@ To replicate the full behavioral notarization and governance simulation in under
 
 ## Updates
 
+### 2026-02-25 — Sovereign Hardening (v2.2.1)
+
+**MinimalRealmsIntegration Component**  
+Added a new SDK reference implementation demonstrating how third-party protocols (such as Catoff) can gate actions based on TrustChain integrity scores. This component serves as a drop-in integration guide for external governance protocols building on Realms.
+
+**Dynamic Multipliers**  
+The UI now reflects the hardened multiplier logic: `STEWARD` tier wallets display a `1.5x` voter weight multiplier and `SYBIL`-flagged wallets are capped at `0.1x`. Multipliers are derived directly from the notarized on-chain score.
+
+**Hydration Simulation Script**  
+Added `scripts/demo_v2.sh` to simulate high-velocity transaction behavior with a 10,000 micro-lamport priority fee. All simulation output is explicitly logged as `SIMULATION MODE` to distinguish demo activity from live Notary Bridge writes.
+
+**Defensive Multiplier Logic**  
+Implemented fallback handling for `voterWeightMultiplier` to prevent runtime crashes during initial chain sync before the Anchor PDA has been read.
+
+---
+
 ### February 2026 — Governance & SDK
 
 **Governance Standing HUD (`GovernanceStanding.jsx`)**  
