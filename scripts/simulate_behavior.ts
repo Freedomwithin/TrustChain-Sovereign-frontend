@@ -44,6 +44,7 @@ async function simulateHydration() {
     await new Promise(resolve => setTimeout(resolve, 1000));
 
     // Mock success output as per requirements
+    console.log("SIMULATION MODE: Mocking notarization for behavioral demonstration.");
     console.log(`✅ Notarized ${targetWallet.publicKey.toBase58()}: 5sKa...mockSignature...`);
 }
 

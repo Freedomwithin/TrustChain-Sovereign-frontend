@@ -3,4 +3,4 @@
 # Populates scoring engine with behavioral profiles
 
 echo "Running TrustChain Demo V2..."
-npx ts-node --esm --experimental-specifier-resolution=node scripts/simulate_behavior.ts
+npx ts-node --project tsconfig.json scripts/simulate_behavior.ts

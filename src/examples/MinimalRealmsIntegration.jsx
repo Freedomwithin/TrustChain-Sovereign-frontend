@@ -28,7 +28,7 @@ const MinimalRealmsIntegration = () => {
                     <strong>Integrity Status:</strong> <span style={{ color: isVerified ? '#00ffa3' : '#ef4444' }}>{loading ? 'Checking...' : status}</span>
                 </div>
                 <div>
-                    <strong>Voting Multiplier:</strong> {loading ? '...' : `${voterWeightMultiplier.toFixed(2)}x`}
+                    <strong>Voting Multiplier:</strong> {loading ? '...' : `${(voterWeightMultiplier || 0).toFixed(2)}x`}
                 </div>
             </div>
 
