@@ -9,6 +9,11 @@ vi.mock('@solana/wallet-adapter-react', () => ({
     connect: vi.fn(),
     disconnect: vi.fn(),
   }),
+  useConnection: () => ({
+    connection: {
+      getBalance: vi.fn().mockResolvedValue(1000000000),
+    },
+  }),
   ConnectionProvider: ({ children }) => <div>{children}</div>,
   WalletProvider: ({ children }) => <div>{children}</div>,
 }));

@@ -6,6 +6,7 @@ import Navbar from './components/Navbar.jsx';
 import Sidebar from './components/Sidebar.jsx';
 import RiskDetail from './components/RiskDetail.jsx';
 import InstitutionalInsights from './components/InstitutionalInsights.jsx';
+import GovernanceStanding from './components/GovernanceStanding.jsx';
 import { useTrustChain } from './sdk/useTrustChain';
 import { getStatusDisplay } from './utils/statusDisplay';
 import './App.css';
@@ -29,6 +30,7 @@ function WalletIntegrity({ isSimulationMode, showToast }) {
   let latencyMs = data?.latencyMs != null ? parseFloat(data.latencyMs) : null;
   let totalScore = data?.totalScore != null ? parseFloat(data.totalScore) : null;
   let fairScaleSocial = data?.fairScaleSocial != null ? parseFloat(data.fairScaleSocial) : null;
+  let governance = data?.governance || null;
 
   // --- INSTITUTIONAL DEMO OVERRIDE ---
   const isDemoWallet = (publicKey?.toBase58() === "FBbjMhKtg1iyy83CeHaieqEFqw586i3WYG4zCcnXr7tc") || isForcedDemo;
@@ -69,6 +71,11 @@ function WalletIntegrity({ isSimulationMode, showToast }) {
         giniScore={giniScore}
         hhiScore={hhiScore}
         showToast={showToast}
+      />
+      <GovernanceStanding
+        governance={governance}
+        isProbationary={status === 'PROBATIONARY'}
+        hhiScore={hhiScore}
       />
     </>
   );
