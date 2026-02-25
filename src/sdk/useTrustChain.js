@@ -64,6 +64,11 @@ export function useTrustChain(options = {}) {
         totalScore: 90,
         fairScaleSocial: 85,
         scores: { gini: 0.15, hhi: 0.05, syncIndex: 0.1 },
+        governance: {
+          tier: 'Steward',
+          voterWeightMultiplier: 1.5,
+          reason: 'High Reputation'
+        },
         reason: 'Mock verification (SDK Mock Mode)',
         latencyMs: 15
       });
@@ -141,6 +146,7 @@ export function useTrustChain(options = {}) {
     data,
     loading,
     error,
+    voterWeightMultiplier: data?.governance?.voterWeightMultiplier || 1.0,
     refetch: () => fetchData()
   };
 }
