@@ -5,6 +5,8 @@ import {
     ComputeBudgetProgram,
 } from '@solana/web3.js';
 import dotenv from 'dotenv';
+import fs from 'fs';
+import path from 'path';
 
 dotenv.config();
 
@@ -29,8 +31,8 @@ async function simulateSovereignHydration() {
     // This is the "Human DNA" that unlocks the 95/100 score
     let totalJitter = 0;
     for (let i = 1; i <= 3; i++) {
-        // Implement Math.random() jitter (500ms - 2500ms)
-        const jitter = Math.floor(Math.random() * 2000) + 500;
+        // Implement Math.random() jitter (800ms - 3000ms)
+        const jitter = Math.floor(Math.random() * 2200) + 800;
         totalJitter += jitter;
 
         // Calculate a mock "Temporal Sync Index" for this pulse
@@ -46,6 +48,44 @@ async function simulateSovereignHydration() {
     console.log(`⏱️ Aggregate Temporal Sync Index: ${finalSyncIndex} (> 0.15 requirement met)`);
 
     console.log("🏛️ Finalizing Notary Bridge Anchor...");
+
+    // --- 3. Institutional Render (Mock Notarization) ---
+    // Programmatically allow the target address to bypass the "Access Denied" screen
+    try {
+        // Validate targetAddress to prevent code injection
+        const base58Regex = /^[1-9A-HJ-NP-Za-km-z]{32,44}$/;
+        if (!base58Regex.test(targetAddress)) {
+             console.error(`❌ Invalid wallet address format: ${targetAddress}. Skipping frontend update.`);
+        } else {
+            const appPath = path.join(process.cwd(), 'src/App.jsx');
+            if (fs.existsSync(appPath)) {
+                let appContent = fs.readFileSync(appPath, 'utf-8');
+
+                const lines = appContent.split('\n');
+                let updated = false;
+                const newContent = lines.map(line => {
+                    if (line.trim().startsWith('const isDemoWallet =')) {
+                        updated = true;
+                        // Preserve indentation
+                        const indentation = line.match(/^\s*/)?.[0] || '';
+                        return `${indentation}const isDemoWallet = (publicKey?.toBase58() === "${targetAddress}") || isForcedDemo;`;
+                    }
+                    return line;
+                }).join('\n');
+
+                if (updated) {
+                    fs.writeFileSync(appPath, newContent);
+                    console.log(`🔓 Institutional Access Granted: ${targetAddress}`);
+                } else {
+                    console.warn("⚠️ Could not find isDemoWallet definition in App.jsx to update.");
+                }
+            } else {
+                 console.warn(`⚠️ App.jsx not found at ${appPath}`);
+            }
+        }
+    } catch (error) {
+        console.error("⚠️ Failed to update App.jsx:", error);
+    }
 
     console.log("----------------------------------------------------");
     console.log("SIMULATION MODE: High-Fidelity Behavioral Proof v2.3");
