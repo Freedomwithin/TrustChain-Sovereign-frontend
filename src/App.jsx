@@ -33,7 +33,7 @@ function WalletIntegrity({ isSimulationMode, showToast }) {
   let governance = data?.governance || null;
 
   // --- INSTITUTIONAL DEMO OVERRIDE ---
-  const isDemoWallet = (publicKey?.toBase58() === "FBbjMhKtg1iyy83CeHaieqEFqw586i3WYG4zCcnXr7tc") || isForcedDemo;
+  const isDemoWallet = (publicKey?.toBase58() === "GAZDwoHW6x4QCaWXizhckqta6v7nFYEFg2aULTk52k7b") || isForcedDemo;
 
   if (isDemoWallet) {
     status = "VERIFIED";

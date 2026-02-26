@@ -87,6 +87,7 @@ The HUD maps wallet states to a clear visual hierarchy:
 | **VERIFIED** | Cyan | 3+ transactions, behavioral maturity confirmed |
 | **ELITE_VERIFIED** | Blue | Weighted score ≥ 85 (behavioral + FairScale) |
 | **SYBIL / ALERT** | Red | Temporal Sentinel detects high-churn or one-block LP pattern |
+| **Steward ** | Gold | Total Score ≥ 85 + 1.5x Voter Weight Multiplier |
 
 Status transitions are rendered live as backend data updates — the UI does not cache or lag state.
 
