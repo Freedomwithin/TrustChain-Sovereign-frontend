@@ -39,6 +39,11 @@ For a deep dive into the **Gini/HHI Dual Gatekeeper** math, our **Helius gRPC pi
 
 ## Updates
 
+> ### Audit & Commit History
+> This repository represents the consolidated **Sovereign Hardening** phase. The full audit trail of our development journey—from initial proof-of-concept to the current gRPC implementation—is preserved in the original development roots:
+> * **[TrustChain Core](https://github.com/Freedomwithin/TrustChain)** — *Early behavioral logic and proof-of-concept.*
+> * **[TrustChain Sovereign](https://github.com/Freedomwithin/TrustChain-Sovereign)** — *Infrastructure hardening and gRPC integration.*
+
 ### 2026-02-25 — Sovereign Hardening (v2.2.1)
 
 **MinimalRealmsIntegration Component**  
