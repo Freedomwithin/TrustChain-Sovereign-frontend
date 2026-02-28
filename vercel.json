@@ -1,20 +1,9 @@
 {
-  "cleanUrls": true,
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "x-cyrene-verification",
-          "value": "7280d782daca38459e373e8ab38b5ca0f97303e3edcd6c3e719d206f2be8c794"
-        }
-      ]
-    }
-  ],
+  "version": 2,
   "rewrites": [
     {
       "source": "/(.*)",
-      "destination": "/index.html"
+      "destination": "/"
     }
   ]
 }

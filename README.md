@@ -3,9 +3,9 @@
 # TrustChain-Sovereign: Frontend
 ### Institutional-Grade Monitoring HUD for the Solana Behavioral Firewall
 
-**Live Demo:** [Watch the Full System Demo on Vimeo](https://vimeo.com/1167869054)  
-**Live Frontend:** [trustchain-sovereign-frontend.vercel.app](https://trustchain-sovereign-frontend.vercel.app)  
-**Backend Repo:** [trustchain-sovereign-backend.vercel.app](https://trustchain-sovereign-backend.vercel.app)  
+**Live Interface:** [trustchainsovereign.com](https://trustchainsovereign.com)  
+**System Demo:** [Watch the Full System Demo on Vimeo](https://vimeo.com/1167869054)  
+**Legacy Endpoint:** [trustchain-sovereign-frontend.vercel.app](https://trustchain-sovereign-frontend.vercel.app)  
 **Project Status:** Institutional Hardening (Production-Ready)  
 **Build Version:** 2.1.5-Sovereign (Hardened)
 
