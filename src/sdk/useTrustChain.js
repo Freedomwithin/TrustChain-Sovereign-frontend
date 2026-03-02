@@ -1,7 +1,13 @@
-import { useState, useEffect, useCallback } from 'react';
-import { useWallet } from '@solana/wallet-adapter-react';
+import { useState, useEffect, useCallback } from "react";
+import { useWallet } from "@solana/wallet-adapter-react";
 
-const DEFAULT_API_URL = import.meta.env.VITE_API_BASE_URL || 'https://trustchain-sovereign-backend.vercel.app';
+const DEFAULT_API_URL =
+  import.meta.env.VITE_API_BASE_URL ||
+  "https://trustchain-sovereign-backend.vercel.app";
+
+// In-memory cache to prevent duplicate concurrent queries
+const requestCache = new Map();
+const responseCache = new Map();
 
 /**
  * useTrustChain Hook
@@ -20,99 +26,129 @@ export function useTrustChain(options = {}) {
     mock = false,
     refreshInterval = 0,
     address: propAddress,
-    apiUrl = DEFAULT_API_URL
+    apiUrl = DEFAULT_API_URL,
   } = options;
 
   const { publicKey, connected } = useWallet();
 
   // Determine target address: prop > connected wallet
-  const address = propAddress || (connected && publicKey ? publicKey.toBase58() : null);
+  const address =
+    propAddress || (connected && publicKey ? publicKey.toBase58() : null);
 
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const fetchData = useCallback(async (signal, isSilent = false) => {
-    if (!address && !mock) {
+  const fetchData = useCallback(
+    async (signal, isSilent = false) => {
+      if (!address && !mock) {
         setData(null);
         return;
-    }
+      }
 
-    if (!isSilent) setLoading(true);
-    setError(null);
+      if (!isSilent) setLoading(true);
+      setError(null);
 
-    // Mock Mode
-    if (mock) {
-      try {
-        await new Promise((resolve, reject) => {
+      // Mock Mode
+      if (mock) {
+        try {
+          await new Promise((resolve, reject) => {
             const timer = setTimeout(resolve, 500);
             if (signal) {
-                signal.addEventListener('abort', () => {
-                    clearTimeout(timer);
-                    reject(new DOMException('Aborted', 'AbortError'));
-                });
+              signal.addEventListener("abort", () => {
+                clearTimeout(timer);
+                reject(new DOMException("Aborted", "AbortError"));
+              });
             }
+          });
+        } catch (e) {
+          return;
+        }
+
+        if (signal?.aborted) return;
+
+        setData({
+          status: "VERIFIED",
+          totalScore: 90,
+          fairScaleSocial: 85,
+          scores: { gini: 0.15, hhi: 0.05, syncIndex: 0.1 },
+          governance: {
+            tier: "Steward",
+            voterWeightMultiplier: 1.5,
+            reason: "High Reputation",
+          },
+          reason: "Mock verification (SDK Mock Mode)",
+          latencyMs: 15,
         });
-      } catch (e) {
+        setLoading(false);
         return;
       }
 
-      if (signal?.aborted) return;
+      // Real API Call
+      try {
+        const cacheKey = `${apiUrl}-${address}`;
 
-      setData({
-        status: 'VERIFIED',
-        totalScore: 90,
-        fairScaleSocial: 85,
-        scores: { gini: 0.15, hhi: 0.05, syncIndex: 0.1 },
-        governance: {
-          tier: 'Steward',
-          voterWeightMultiplier: 1.5,
-          reason: 'High Reputation'
-        },
-        reason: 'Mock verification (SDK Mock Mode)',
-        latencyMs: 15
-      });
-      setLoading(false);
-      return;
-    }
-
-    // Real API Call
-    try {
-      // Switched to POST to match useIntegrity implementation
-      const response = await fetch(`${apiUrl}/api/verify`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ address }),
-        signal
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error || `TrustChain API Error: ${response.status}`);
-      }
-
-      const result = await response.json();
-
-      if (!signal?.aborted) {
-        setData(result);
-        setLoading(false);
-      }
-    } catch (err) {
-      if (!signal?.aborted) {
-        if (err.name === 'AbortError') return;
-
-        console.error('TrustChain Verification Failed:', err);
-
-        let errorMessage = err.message || 'Unknown Error';
-        if (errorMessage.includes('Failed to fetch') || errorMessage.includes('Network request failed')) {
-             errorMessage = 'Sentinel Offline - Check RPC Connection';
+        // Serve from response cache if available
+        if (responseCache.has(cacheKey) && !isSilent) {
+          setData(responseCache.get(cacheKey));
+          setLoading(false);
+          return;
         }
 
-        setError(errorMessage);
-        setLoading(false);
+        // Deduplicate concurrent requests
+        if (!requestCache.has(cacheKey)) {
+          const fetchPromise = fetch(`${apiUrl}/api/verify`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ address }),
+            signal,
+          })
+            .then(async (response) => {
+              if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                throw new Error(
+                  errorData.error || `TrustChain API Error: ${response.status}`,
+                );
+              }
+              return response.json();
+            })
+            .finally(() => {
+              requestCache.delete(cacheKey);
+            });
+
+          requestCache.set(cacheKey, fetchPromise);
+        }
+
+        const result = await requestCache.get(cacheKey);
+
+        if (!signal?.aborted) {
+          responseCache.set(cacheKey, result);
+          setData(result);
+          setLoading(false);
+        }
+      } catch (err) {
+        if (!signal?.aborted) {
+          if (err.name === "AbortError") return;
+
+          console.error("TrustChain Verification Failed:", err);
+
+          let errorMessage = err.message || "Unknown Error";
+          if (
+            errorMessage.includes("Failed to fetch") ||
+            errorMessage.includes("Network request failed") ||
+            errorMessage.includes("429")
+          ) {
+            errorMessage =
+              "Sentinel Offline or Rate Limited - Check RPC Connection";
+          }
+
+          setError(errorMessage);
+          setLoading(false);
+        }
       }
-    }
-  }, [address, mock, apiUrl]);
+    },
+    [address, mock, apiUrl],
+  );
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -128,13 +164,13 @@ export function useTrustChain(options = {}) {
     let intervalId;
 
     if (refreshInterval > 0) {
-        intervalId = setInterval(() => {
-            fetchData(undefined, true); // Silent refresh
-        }, refreshInterval);
-    } else if (data?.status === 'PROBATIONARY') {
-        intervalId = setInterval(() => {
-            fetchData(undefined, true); // Silent refresh
-        }, 5000); // Poll every 5 seconds
+      intervalId = setInterval(() => {
+        fetchData(undefined, true); // Silent refresh
+      }, refreshInterval);
+    } else if (data?.status === "PROBATIONARY") {
+      intervalId = setInterval(() => {
+        fetchData(undefined, true); // Silent refresh
+      }, 5000); // Poll every 5 seconds
     }
 
     return () => {
@@ -147,6 +183,6 @@ export function useTrustChain(options = {}) {
     loading,
     error,
     voterWeightMultiplier: data?.governance?.voterWeightMultiplier || 1.0,
-    refetch: () => fetchData()
+    refetch: () => fetchData(),
   };
 }
