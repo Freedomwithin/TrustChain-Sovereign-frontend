@@ -19,11 +19,11 @@ To replicate the full behavioral notarization and governance simulation in under
 
 ---
 
-## 🏛️ Sovereign Architecture & Strategy
+##  Sovereign Architecture & Strategy
 
 Since the initial submission, TrustChain has undergone a **Sovereign Hardening** phase to move from prototype heuristics to an institutional-grade security primitive.
 
-### 📊 Roadmap & Technical Pitch
+###  Roadmap & Technical Pitch
 
 For a deep dive into the **Gini/HHI Dual Gatekeeper** math, our **Helius gRPC pipeline**, and the **90-day Shadow Audit Roadmap**, refer to our strategic documentation:
 
