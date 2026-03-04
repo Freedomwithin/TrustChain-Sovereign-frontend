@@ -9,12 +9,14 @@
 ---
 
 ### Step 1 — Initialize Environment
+Ensure your local Solana environment is set to Devnet. While the demo natively tracks the GAZD...2k7b identity to show established high-integrity scores, you may use any Devnet wallet. The Notary Bridge and behavioral scoring will operate against whatever transaction history is available for the connected wallet.
 
-Ensure your wallet (`GAZD...2k7b`) is active on **Solana Devnet** before beginning. The Notary Bridge and behavioral scoring operate against devnet transaction history.
+**Note on Installation:** To resolve Sovereign-specific polyfill dependencies, please install using:
+npm install --legacy-peer-deps
 
 ### Step 2 — Behavioral Hydration
 
-Run the demo script to simulate a high-integrity transaction cluster (Whale vs. Dust behavioral patterns):
+Run the demo script to simulate a high-integrity transaction cluster (Whale vs. Dust patterns). This script dynamically detects your target wallet from your .env file (copied from .env.example during setup)
 
 ```bash
 bash scripts/demo_v2.sh
@@ -35,6 +37,8 @@ This confirms a cryptographically verifiable link between the wallet's behaviora
 ### Step 4 — Governance Impact
 
 Visit the **[Live Frontend](https://trustchain-sovereign-frontend.vercel.app)**, connect your wallet, and click **"Simulate Vote."** The system will fetch your `voterWeightMultiplier` from the Anchor Notary PDA and apply it to your token balance in real time — for example, a Steward-tier wallet will display a `1.5x` effective voting power multiplier.
+
+**Auditor Note:** To maintain demo stability, the UI includes an override for the GAZD... wallet. To see the raw behavioral scoring you generated in Step 2 for your own wallet, simply comment out the "Institutional Demo Override" block in src/App.jsx.
 
 ---
 
