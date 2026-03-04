@@ -9,10 +9,8 @@ import InstitutionalInsights from './components/InstitutionalInsights.jsx';
 import GovernanceStanding from './components/GovernanceStanding.jsx';
 import { useTrustChain } from './sdk/useTrustChain';
 import { getStatusDisplay } from './utils/statusDisplay';
+import { API_BASE_URL } from './config/constants';
 import './App.css';
-
-// Ensure this matches your .env.example or defaults to the stable Vercel production
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://trustchain-sovereign-backend.vercel.app';
 
 function WalletIntegrity({ isSimulationMode, showToast }) {
   const { connected: walletConnected, publicKey } = useWallet();
@@ -101,7 +99,7 @@ function PoolIntegrityBadge({ integrity, loading }) {
         <small style={{ display: 'block', fontSize: '11px', fontWeight: 'bold' }}>
           Gini: {integrity?.giniScore?.toFixed(3) || '0.125'}
         </small>
-        <small style={{
+        <small data-testid="auditor-note" style={{
           display: 'block',
           fontSize: '9px',
           color: '#00ffa3',
@@ -111,7 +109,7 @@ function PoolIntegrityBadge({ integrity, loading }) {
           borderTop: '1px solid rgba(0, 255, 163, 0.2)',
           paddingTop: '4px'
         }}>
-          Notary: JCq7...Xcg
+          Auditor Note: JCq7...Xcg
         </small>
       </div>
     </div>
@@ -168,7 +166,11 @@ function App() {
     setLoadingPools(true);
     // Parallel fetch for individual pool behavioral forensics
     const fetchPromises = pools.map(pool =>
-      fetch(`${API_BASE_URL}/api/pool/${pool.id}/integrity`)
+      fetch(`${API_BASE_URL}/api/verify`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ address: pool.id })
+      })
         .then(res => res.json())
         .then(data => ({ id: pool.id, data }))
         .catch(err => ({ id: pool.id, error: err }))
