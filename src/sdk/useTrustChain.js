@@ -2,6 +2,37 @@ import { useState, useEffect, useCallback } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { API_BASE_URL as DEFAULT_API_URL } from '../config/constants';
 
+// ---- Cache Configuration ----
+const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minute TTL
+const CACHE_MAX_SIZE = 100;          // FIFO eviction after 100 entries
+
+// In-memory caches (module-scoped, shared across all hook instances)
+const responseCache = new Map();   // key -> { data, timestamp }
+const requestCache = new Map();    // key -> Promise (for deduplication)
+
+/**
+ * Evicts the oldest entry if the cache exceeds CACHE_MAX_SIZE.
+ */
+const evictIfNeeded = () => {
+  if (responseCache.size > CACHE_MAX_SIZE) {
+    const oldestKey = responseCache.keys().next().value;
+    responseCache.delete(oldestKey);
+  }
+};
+
+/**
+ * Returns cached data if it exists and hasn't expired, otherwise null.
+ */
+const getCachedData = (key) => {
+  const entry = responseCache.get(key);
+  if (!entry) return null;
+  if (Date.now() - entry.timestamp > CACHE_TTL_MS) {
+    responseCache.delete(key);
+    return null;
+  }
+  return entry.data;
+};
+
 /**
  * useTrustChain Hook
  *
@@ -31,7 +62,7 @@ export function useTrustChain(options = {}) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const fetchData = useCallback(async (signal, isSilent = false) => {
+  const fetchData = useCallback(async ({ signal, isSilent = false, force = false } = {}) => {
     if (!address && !mock) {
         setData(null);
         return;
@@ -77,22 +108,54 @@ export function useTrustChain(options = {}) {
 
     // Real API Call
     try {
-      // Switched to POST to match useIntegrity implementation
-      const response = await fetch(`${apiUrl}/api/verify`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ address }),
-        signal
-      });
+      const cacheKey = `${apiUrl}-${address}`;
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error || `TrustChain API Error: ${response.status}`);
+      // Force flag: clear cache entry so we get fresh data
+      if (force) {
+        responseCache.delete(cacheKey);
+        requestCache.delete(cacheKey);
       }
 
-      const result = await response.json();
+      // Serve from cache if valid and not a forced refresh
+      const cached = getCachedData(cacheKey);
+      if (cached && !force) {
+        setData(cached);
+        setLoading(false);
+        return;
+      }
 
+      // Deduplicate: if a request for this key is already in-flight, reuse it.
+      // The fetch promise is decoupled from any single component's AbortSignal
+      // so that unmounting one component doesn't cancel it for others.
+      if (!requestCache.has(cacheKey)) {
+        const fetchPromise = fetch(`${apiUrl}/api/verify`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ address })
+          // NOTE: No signal passed here intentionally.
+          // The fetch runs independently so one component unmounting
+          // doesn't abort the request for other listening components.
+        }).then(async (response) => {
+          if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(errorData.error || `TrustChain API Error: ${response.status}`);
+          }
+          return response.json();
+        }).finally(() => {
+          // Clean up in-flight tracker once settled
+          requestCache.delete(cacheKey);
+        });
+
+        requestCache.set(cacheKey, fetchPromise);
+      }
+
+      const result = await requestCache.get(cacheKey);
+
+      // Only update state if the calling component hasn't unmounted
       if (!signal?.aborted) {
+        // Store in cache with timestamp
+        responseCache.set(cacheKey, { data: result, timestamp: Date.now() });
+        evictIfNeeded();
         setData(result);
         setLoading(false);
       }
@@ -115,7 +178,7 @@ export function useTrustChain(options = {}) {
 
   useEffect(() => {
     const abortController = new AbortController();
-    fetchData(abortController.signal);
+    fetchData({ signal: abortController.signal });
 
     return () => {
       abortController.abort();
@@ -128,11 +191,11 @@ export function useTrustChain(options = {}) {
 
     if (refreshInterval > 0) {
         intervalId = setInterval(() => {
-            fetchData(undefined, true); // Silent refresh
+            fetchData({ isSilent: true }); // Silent refresh
         }, refreshInterval);
     } else if (data?.status === 'PROBATIONARY') {
         intervalId = setInterval(() => {
-            fetchData(undefined, true); // Silent refresh
+            fetchData({ isSilent: true }); // Silent refresh
         }, 5000); // Poll every 5 seconds
     }
 
@@ -146,6 +209,6 @@ export function useTrustChain(options = {}) {
     loading,
     error,
     voterWeightMultiplier: data?.governance?.tier === 'Steward' ? 1.5 : (data?.governance?.voterWeightMultiplier || 1.0),
-    refetch: () => fetchData()
+    refetch: () => fetchData({ force: true })
   };
 }
