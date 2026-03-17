@@ -5,6 +5,8 @@ interface NotarizationResult {
   gini: string;
   hhi: string;
   pda?: string;
+  scores?: any;
+  status?: string;
 }
 
 interface UseTrustChainReturn {
@@ -25,23 +27,36 @@ export const useTrustChain = (): UseTrustChainReturn => {
     setData(null);
 
     try {
-      const response = await fetch('/api/notarize', {
+      // Pointing to the Hardened Backend Vercel URL
+      const baseUrl = 'https://trustchain-sovereign-backend.vercel.app';
+      const response = await fetch(`${baseUrl}/api/verify`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ walletAddress: address }),
+        body: JSON.stringify({ address }),
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Notarization failed');
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || 'Verification failed at Gateway');
       }
 
-      const result: NotarizationResult = await response.json();
-      setData(result);
-      return result;
+      const result = await response.json();
+      
+      // Map Backend V3.1 structure to Frontend legacy expectations + extra data
+      const mappedResult: NotarizationResult = {
+        signature: result.signature || '',
+        gini: result.scores?.gini?.toString() || '0',
+        hhi: result.scores?.hhi?.toString() || '0',
+        scores: result.scores,
+        status: result.status
+      };
+
+      setData(mappedResult);
+      return mappedResult;
     } catch (err: any) {
+      console.error('TrustChain Hook Error:', err);
       const errorMessage = err.message || 'An unexpected error occurred';
       setError(errorMessage);
       return null;
