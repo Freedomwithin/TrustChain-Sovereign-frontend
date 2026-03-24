@@ -330,6 +330,7 @@
 .hook-glow { border-color: var(--cyan-glow); box-shadow: 0 0 15px var(--cyan-glow); }
 .sentinel-glow { border-color: #fff; box-shadow: 0 0 15px #fff; }
 .identity-glow { border-color: #f59e0b; box-shadow: 0 0 15px #f59e0b; }
+.mobile-glow { border-color: #00ddeb; box-shadow: 0 0 15px #00ddeb; }
 
 .glass-morph h3 {
   font-family: 'Orbitron', sans-serif;

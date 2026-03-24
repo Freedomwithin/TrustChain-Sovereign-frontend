@@ -5,6 +5,12 @@ import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import { PhantomWalletAdapter, SolflareWalletAdapter } from '@solana/wallet-adapter-wallets';
 import { clusterApiUrl } from '@solana/web3.js';
+import { 
+    SolanaMobileWalletAdapter, 
+    createDefaultAddressSelector, 
+    createDefaultAuthorizationResultCache, 
+    createDefaultWalletNotFoundHandler 
+} from '@solana-mobile/wallet-adapter-mobile';
 
 // Default styles that can be overridden by your app
 import '@solana/wallet-adapter-react-ui/styles.css';
@@ -16,6 +22,17 @@ const WalletContext = ({ children }) => {
 
     const wallets = useMemo(
         () => [
+            new SolanaMobileWalletAdapter({
+                addressSelector: createDefaultAddressSelector(),
+                appIdentity: {
+                    name: 'TrustChain Sovereign',
+                    uri: 'https://trustchainsovereign.com',
+                    icon: 'favicon.ico',
+                },
+                authorizationResultCache: createDefaultAuthorizationResultCache(),
+                cluster: 'devnet',
+                onWalletNotFound: createDefaultWalletNotFoundHandler(),
+            }),
             new PhantomWalletAdapter(),
             new SolflareWalletAdapter(),
         ],

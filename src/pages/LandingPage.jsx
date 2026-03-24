@@ -102,16 +102,17 @@ const LandingPage = () => {
           <div className="card-footer-tag">LATENCY: 12ms</div>
         </div>
 
-        <div className="feature-card glass-morph">
+        {/* Mobile Connectivity Card */}
+        <div className="feature-card glass-morph mobile-card">
           <div className="feature-header">
-            <div className="feature-icon-box forensics-glow"></div>
-            <h3>Gini Forensics</h3>
+            <div className="feature-icon-box mobile-glow"></div>
+            <h3>Mobile Connectivity</h3>
           </div>
           <p>
-            Real-time concentration mapping. We enforce a strict parity threshold 
-            to protect against liquidity centralisation.
+            Seamless deep-linking to Phantom and Solflare via Solana Mobile Wallet Adapter. 
+            Connect securely from any mobile browser.
           </p>
-          <div className="card-footer-tag">INDEX: 0.70</div>
+          <div className="card-footer-tag">NETWORK: DEVNET SAFE</div>
         </div>
 
         {/* Sovereign Identity Card */}
