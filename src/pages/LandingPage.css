@@ -24,10 +24,8 @@
 .sacred-geometry-bg {
   position: fixed;
   inset: 0;
-  background-image: url('../assets/sacred_geometry_backround.png'); /* Using your local image */
   background-size: cover; /* Cover the entire area */
   background-position: center; /* Center the image */
-  opacity: 0.02;
   z-index: 0;
   pointer-events: none;
 }

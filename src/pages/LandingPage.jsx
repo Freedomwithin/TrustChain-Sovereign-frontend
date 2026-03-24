@@ -1,3 +1,4 @@
+import sacredBg from '../assets/sacred_geometry_backround.png';
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './LandingPage.css';
@@ -15,7 +16,7 @@ const LandingPage = () => {
   return (
     <div className="sovereign-landing">
       {/* Sacred Geometry Background */}
-      <div className="sacred-geometry-bg"></div>
+      <div className="sacred-geometry-bg" style={{ backgroundImage: `url(${sacredBg})`, opacity: 0.15 }}></div>
       
       <div className="grid-overlay"></div>
       <div className="vignette-overlay"></div>
