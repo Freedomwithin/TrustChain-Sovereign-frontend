@@ -6,7 +6,7 @@ const Sidebar = ({ isSimulationMode, toggleSimulationMode }) => {
     <div className="sidebar">
       <div className="sidebar-header">
         <div className="sidebar-title">SENTINEL PROTOCOL</div>
-        <div className="sidebar-subtitle">v2.4.0-ALPHA</div>
+        <div className="sidebar-subtitle">v3.1 ALPHA</div>
       </div>
 
       <div className="sidebar-section">
