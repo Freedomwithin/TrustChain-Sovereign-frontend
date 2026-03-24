@@ -265,3 +265,20 @@ h1 {
     gap: 1rem;
   }
 }
+
+/* Dashboard Layout Fixes */
+.dashboard-wrapper {
+  display: flex;
+  min-height: 100vh;
+}
+
+@media (max-width: 768px) {
+  .dashboard-wrapper {
+    flex-direction: column;
+  }
+  
+  .dashboard-wrapper .main-content {
+    margin-left: 0;
+    padding-top: 20px;
+  }
+}

@@ -14,6 +14,9 @@ const LandingPage = () => {
 
   return (
     <div className="sovereign-landing">
+      {/* Sacred Geometry Background */}
+      <div className="sacred-geometry-bg"></div>
+      
       <div className="grid-overlay"></div>
       <div className="vignette-overlay"></div>
       <div className="scanline"></div>
@@ -27,7 +30,7 @@ const LandingPage = () => {
       <header className="hero-section" style={{ transform: `translateY(${scrollY * 0.2}px)` }}>
         <div className="hero-glow"></div>
         <div className="hero-content">
-          <div className="badge-vault animate-pulse">V3.1 ALPHA — MAINNET OPERATIONAL</div>
+          <div className="badge-vault animate-pulse">V3.1 ALPHA — BETA OPERATIONAL</div>
           <h1 className="hero-title">
             <span className="text-gradient">Behavioral Immunity</span><br/>
             <span className="text-sub">For the Solana Network</span>
@@ -62,6 +65,30 @@ const LandingPage = () => {
         </div>
       </div>
 
+      {/* How It Works Section */}
+      <section className="how-it-works">
+        <h2 className="section-title">How It Works</h2>
+        <div className="workflow-container">
+          <div className="workflow-step">
+            <div className="step-number">01</div>
+            <h4>Ingestion</h4>
+            <p>Real-time transaction streaming via Helius gRPC Yellowstone.</p>
+          </div>
+          <div className="workflow-connector"></div>
+          <div className="workflow-step">
+            <div className="step-number">02</div>
+            <h4>Analysis</h4>
+            <p>Entropy & concentration forensics (Gini/HHI) analyzed in a 3,000ms sliding window.</p>
+          </div>
+          <div className="workflow-connector"></div>
+          <div className="workflow-step">
+            <div className="step-number">03</div>
+            <h4>Action</h4>
+            <p>Automated reputation scoring and Sybil-trap isolation for bot swarms.</p>
+          </div>
+        </div>
+      </section>
+
       <section className="features-grid">
         <div className="feature-card glass-morph">
           <div className="feature-header">
@@ -87,16 +114,19 @@ const LandingPage = () => {
           <div className="card-footer-tag">INDEX: 0.70</div>
         </div>
 
-        <div className="feature-card glass-morph">
+        {/* React Hook Section */}
+        <div className="feature-card glass-morph dev-card">
           <div className="feature-header">
-            <div className="feature-icon-box gatekeeper-glow"></div>
-            <h3>HHI Gatekeeper</h3>
+            <div className="feature-icon-box hook-glow"></div>
+            <h3>useTrustChain()</h3>
           </div>
-          <p>
-            Advanced market-concentration monitoring. Automated sentinel 
-            isolation triggers when centralization limits are breached.
-          </p>
-          <div className="card-footer-tag">STATUS: ACTIVE</div>
+          <p>Integrate behavioral forensics directly into your React application with a single hook.</p>
+          <pre className="hook-code">
+{`const { data, loading } = useTrustChain();
+if (data.status === 'RESTRICTED') {
+  return <AccessDenied />;
+}`}
+          </pre>
         </div>
 
         <div className="feature-card glass-morph">
@@ -143,7 +173,7 @@ const LandingPage = () => {
           <p className="footer-tag">TRUSTCHAIN SOVEREIGN v3.1</p>
           <div className="footer-links">
             <a href="https://github.com/Freedomwithin/TrustChain-Sovereign-frontend" target="_blank" rel="noopener noreferrer">GITHUB</a>
-            <a href="#solana">SOLANA</a>
+            <a href="https://solana.org/" target="_blank" rel="noopener noreferrer">SOLANA</a>
             <Link to="/specs">SPECS</Link>
             <Link to="/vision">VISION</Link>
           </div>

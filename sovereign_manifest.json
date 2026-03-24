@@ -1,0 +1,15 @@
+{
+    "version": "1.0",
+    "timestamp": "2026-03-24T10:55:41.584210",
+    "files": {
+        "Navbar.jsx": "8a5081cbacd174056a444eb1276f71b91ebaba88fcf3ea18e545f9af3f48793e",
+        "LandingPage.css": "17320aed5dc0e471bfadd32488973703753bba36704b32c6d0697fc356c4d706",
+        "VisionPage.jsx": "5836bd73ffb1956e0b320a634c44d260da8a3eae0b787c5cba40555108dfe833",
+        "Dashboard.jsx": "ca82b74f20a20ce162e4acff84161fe070916ed39de1d3e5d10e45906e8c1bd8",
+        "SpecsPage.css": "25126d7dc43e50dc216aaa968542c14c36c6725753d18611bee3e41853917b8e",
+        "LandingPage.jsx": "80718677d1eca1522bcea968e8ce2b9ace8ecb3c97d5d7ce758c0523a73740b3",
+        "SpecsPage.jsx": "02f3f785abb86c93310fd7e17e11ebad6319b8511845aa5776ffec90444e9e5b",
+        "App.jsx": "188e4f189205e73367f00256b659daf9c4c7e4850980e5ecfcd76a139e22405e",
+        "VisionPage.css": "a36dda4007615d9f7e8c52d0c451b596e0455381fb462eae740f103660ad089c"
+    }
+}
