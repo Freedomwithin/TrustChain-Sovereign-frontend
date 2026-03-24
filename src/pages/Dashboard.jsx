@@ -3,7 +3,7 @@ import { useWallet } from '@solana/wallet-adapter-react';
 import Sidebar from '../components/Sidebar.jsx';
 import RiskDetail from '../components/RiskDetail.jsx';
 import InstitutionalInsights from '../components/InstitutionalInsights.jsx';
-import GovernanceStanding from '../components/GovernanceStanding.jsx';
+import GovernanceStanding from './GovernanceStanding.jsx';
 import { useTrustChain } from '../sdk/useTrustChain';
 import { getStatusDisplay } from '../utils/statusDisplay';
 import { API_BASE_URL } from '../config/constants';

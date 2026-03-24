@@ -1,0 +1,179 @@
+.governance-standing-card {
+  background: rgba(13, 17, 23, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(48, 54, 61, 0.5);
+  border-radius: 8px; /* Slightly more rounded than badges, but consistent with cards */
+  padding: 1.5rem;
+  margin-top: 1rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.governance-standing-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  color: #fff;
+  font-family: inherit;
+}
+
+/* Tier Highlights */
+.governance-standing-card.tier-steward {
+  border-color: rgba(255, 215, 0, 0.5);
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);
+}
+
+.governance-standing-card.tier-verified {
+  border-color: rgba(52, 211, 153, 0.4);
+}
+
+.governance-standing-card.tier-probationary {
+  border-color: rgba(251, 191, 36, 0.4);
+}
+
+.governance-standing-card.tier-restricted {
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+/* Tier Badge */
+.tier-badge {
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  font-family: monospace;
+  font-weight: bold;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.tier-badge.steward {
+  background: rgba(255, 215, 0, 0.15);
+  color: #FFD700;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.tier-badge.verified {
+  background: rgba(52, 211, 153, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(52, 211, 153, 0.3);
+}
+
+.tier-badge.probationary {
+  background: rgba(251, 191, 36, 0.15);
+  color: #fbbf24;
+  border: 1px solid rgba(251, 191, 36, 0.3);
+}
+
+.tier-badge.restricted {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+/* Metrics Grid */
+.governance-metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.metric-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.metric-label {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  margin-bottom: 0.25rem;
+}
+
+.metric-value {
+  font-family: monospace;
+  font-size: 1.1rem;
+  color: #fff;
+}
+
+/* Simulated Vote Button */
+.simulated-vote-btn {
+  width: 100%;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  padding: 0.8rem;
+  font-family: monospace;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.simulated-vote-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.simulated-vote-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.vote-power-value {
+  color: #34d399;
+  font-weight: bold;
+}
+
+/* Tooltip for Probationary/HHI */
+.forensic-tooltip-container {
+  position: relative;
+  display: inline-block;
+  cursor: help;
+  margin-left: 0.5rem;
+}
+
+.forensic-tooltip {
+  visibility: hidden;
+  width: 240px;
+  background-color: #1a1b26;
+  color: #fff;
+  text-align: left;
+  border-radius: 4px;
+  padding: 0.8rem;
+  position: absolute;
+  z-index: 100;
+  bottom: 125%; /* Position above */
+  left: 50%;
+  transform: translateX(-50%);
+  border: 1px solid #fbbf24;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transition: opacity 0.3s;
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+.forensic-tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #fbbf24 transparent transparent transparent;
+}
+
+.forensic-tooltip-container:hover .forensic-tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+.warning-icon {
+  color: #fbbf24;
+  font-size: 0.9rem;
+}
