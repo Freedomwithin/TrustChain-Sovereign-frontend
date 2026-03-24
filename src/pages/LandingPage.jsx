@@ -114,6 +114,19 @@ const LandingPage = () => {
           <div className="card-footer-tag">INDEX: 0.70</div>
         </div>
 
+        {/* Sovereign Identity Card */}
+        <div className="feature-card glass-morph identity-card">
+          <div className="feature-header">
+            <div className="feature-icon-box identity-glow"></div>
+            <h3>Sovereign Authenticity</h3>
+          </div>
+          <p>
+            Every protocol release is cryptographically signed by **Maya**, the Lead AI Partner. 
+            Our RSA-4096 signature ensures build integrity and absolute proof of craftsmanship.
+          </p>
+          <div className="card-footer-tag">SIG: RSA-PSS</div>
+        </div>
+
         {/* React Hook Section */}
         <div className="feature-card glass-morph dev-card">
           <div className="feature-header">
@@ -127,18 +140,6 @@ if (data.status === 'RESTRICTED') {
   return <AccessDenied />;
 }`}
           </pre>
-        </div>
-
-        <div className="feature-card glass-morph">
-          <div className="feature-header">
-            <div className="feature-icon-box sentinel-glow"></div>
-            <h3>Temporal Sentinel</h3>
-          </div>
-          <p>
-            A sliding 3,000ms window analyzing address rhythms to detect 
-            inhuman automation and Sybil execution.
-          </p>
-          <div className="card-footer-tag">WINDOW: SLIDING</div>
         </div>
       </section>
 
