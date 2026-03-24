@@ -1,0 +1,137 @@
+.vision-container {
+  background-color: #08080f;
+  color: #e2e8f0;
+  min-height: 100vh;
+  padding: 120px 2rem;
+  font-family: 'JetBrains Mono', monospace;
+  position: relative;
+}
+
+.vision-hero {
+  text-align: center;
+  margin-bottom: 100px;
+}
+
+.vision-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 3.5rem;
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: 1.5rem;
+}
+
+.vision-subtitle {
+  color: #8b5cf6;
+  letter-spacing: 0.3em;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+}
+
+.roadmap-grid {
+  max-width: 1000px;
+  margin: 0 auto;
+  position: relative;
+  padding-left: 40px;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.roadmap-card {
+  background: rgba(13, 17, 23, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 3rem;
+  margin-bottom: 4rem;
+  position: relative;
+  transition: all 0.4s ease;
+}
+
+.roadmap-card:hover {
+  border-color: var(--accent);
+  background: rgba(255, 255, 255, 0.02);
+  transform: translateX(10px);
+}
+
+.roadmap-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.phase-tag {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.7rem;
+  color: var(--accent);
+  letter-spacing: 0.2em;
+}
+
+.status-tag {
+  font-size: 0.6rem;
+  padding: 4px 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+  letter-spacing: 0.1em;
+}
+
+.roadmap-card h3 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
+.roadmap-card p {
+  color: #94a3b8;
+  line-height: 1.8;
+  font-size: 0.95rem;
+}
+
+.roadmap-connector {
+  position: absolute;
+  left: -41px;
+  top: 50%;
+  width: 40px;
+  height: 1px;
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
+}
+
+.roadmap-connector::before {
+  content: '';
+  position: absolute;
+  left: -4px;
+  top: -4px;
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--accent);
+}
+
+.vision-statement {
+  max-width: 800px;
+  margin: 100px auto 0;
+  text-align: center;
+  padding: 4rem;
+  background: radial-gradient(circle at center, rgba(139, 92, 246, 0.05) 0%, transparent 70%);
+}
+
+.vision-statement h3 {
+  font-family: 'Orbitron', sans-serif;
+  margin-bottom: 2rem;
+  color: #fff;
+}
+
+.vision-statement p {
+  color: #cbd5e1;
+  font-size: 1.1rem;
+  line-height: 2;
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .vision-title { font-size: 2.2rem; }
+  .roadmap-grid { padding-left: 20px; }
+  .roadmap-card { padding: 2rem; }
+}

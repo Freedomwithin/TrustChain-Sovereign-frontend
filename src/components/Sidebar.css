@@ -157,3 +157,46 @@ input:checked + .slider:before {
 .footer-item {
   margin-bottom: 0.3rem;
 }
+
+/* --- MOBILE RESPONSIVENESS --- */
+@media (max-width: 768px) {
+  .sidebar {
+    position: relative;
+    width: 100%;
+    height: auto;
+    bottom: auto;
+    border-right: none;
+    border-bottom: 1px solid rgba(0, 255, 163, 0.2);
+    padding: 1rem;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .sidebar-header {
+    margin-bottom: 0;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .sidebar-section {
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .sidebar-footer {
+    display: none;
+  }
+
+  .toggle-container {
+    margin-bottom: 0;
+    gap: 0.5rem;
+  }
+
+  .sidebar-label {
+    margin-bottom: 0.2rem;
+  }
+}
