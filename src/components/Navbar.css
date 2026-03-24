@@ -83,6 +83,16 @@
   box-shadow: 0 0 20px rgba(0, 255, 163, 0.4);
 }
 
+.mobile-wallet-container {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .nav-links { display: none; }
+  .mobile-wallet-container {
+    display: block;
+  }
+  .nav-container {
+    padding: 0 1rem;
+  }
 }

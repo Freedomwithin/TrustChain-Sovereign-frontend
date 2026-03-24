@@ -14,6 +14,11 @@ const Navbar = () => {
           <span className="logo-text">TRUSTCHAIN</span>
         </Link>
         
+        {/* Mobile Wallet Button (Visible only on mobile) */}
+        <div className="mobile-wallet-container">
+          <WalletMultiButton className="wallet-adapter-button" />
+        </div>
+
         <div className="nav-links">
           <Link to="/" className="nav-item">HOME</Link>
           <Link to="/specs" className="nav-item">SPECS</Link>

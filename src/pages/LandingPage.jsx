@@ -106,12 +106,16 @@ const LandingPage = () => {
         <div className="feature-card glass-morph mobile-card">
           <div className="feature-header">
             <div className="feature-icon-box mobile-glow"></div>
-            <h3>Mobile Connectivity</h3>
+            <h3>Mobile Sync</h3>
           </div>
-          <p>
-            Seamless deep-linking to Phantom and Solflare via Solana Mobile Wallet Adapter. 
-            Connect securely from any mobile browser.
-          </p>
+          <div className="connection-guide">
+            <ol>
+              <li>Install Solflare or Phantom app.</li>
+              <li>Unlock your wallet.</li>
+              <li>Load this site in your mobile browser.</li>
+              <li>Protocol auto-detects your identity.</li>
+            </ol>
+          </div>
           <div className="card-footer-tag">NETWORK: DEVNET SAFE</div>
         </div>
 
