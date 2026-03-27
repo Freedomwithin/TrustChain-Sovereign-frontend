@@ -90,6 +90,23 @@ const LandingPage = () => {
         </div>
       </section>
 
+      {/* PROTOCOL REVEAL VIDEO */}
+      <section className="protocol-reveal">
+        <div className="section-content">
+          <h2 className="section-title">Protocol Reveal</h2>
+          <div className="video-wrapper glass-morph">
+            <iframe 
+              src="https://player.vimeo.com/video/1167869054?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
+              frameBorder="0" 
+              allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" 
+              style={{ width: '100%', aspectRatio: '16/9', borderRadius: '4px' }}
+              title="TrustChain Protocol Reveal"
+            ></iframe>
+          </div>
+          <p className="video-caption">Real-time entropy analysis neutralizing a distributed Sybil attack.</p>
+        </div>
+      </section>
+
       <section className="features-grid">
         <div className="feature-card glass-morph">
           <div className="feature-header">

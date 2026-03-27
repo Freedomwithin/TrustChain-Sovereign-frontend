@@ -285,6 +285,33 @@
   margin: 0 10px;
 }
 
+/* --- PROTOCOL REVEAL --- */
+.protocol-reveal {
+  padding: 100px 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  text-align: center;
+  z-index: 10;
+  position: relative;
+}
+
+.video-wrapper {
+  padding: 1rem;
+  background: rgba(8, 8, 15, 0.8);
+  box-shadow: 0 0 40px rgba(0, 255, 163, 0.1);
+  border: 1px solid rgba(0, 255, 163, 0.2);
+  margin-bottom: 2rem;
+}
+
+.video-caption {
+  font-size: 0.8rem;
+  color: var(--neon-green);
+  font-family: 'JetBrains Mono', monospace;
+  opacity: 0.7;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
 /* --- FEATURES GRID --- */
 .features-grid {
   display: grid;
