@@ -97,10 +97,25 @@ const CommanderLanding = () => {
 
         <div className="hero-actions">
           <button className="primary-btn" onClick={() => document.getElementById('waitlist').scrollIntoView({ behavior: 'smooth' })}>Join Early Access — 50% Off</button>
-          <button className="secondary-btn">Watch Calibration Demo</button>
+          <button className="secondary-btn" onClick={() => document.getElementById('demo-video').scrollIntoView({ behavior: 'smooth' })}>Watch Ghost Hand Reveal</button>
         </div>
         <div className="urgency-tag">🚀 First 25 users get 50% off lifetime access.</div>
       </header>
+
+      {/* VIDEO DEMO SECTION */}
+      <section id="demo-video" className="demo-video-section">
+        <div className="section-content">
+          <div className="video-container">
+            <iframe 
+              src="https://player.vimeo.com/video/1177620692?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
+              frameBorder="0" 
+              allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" 
+              style={{ width: '100%', aspectRatio: '16/9', borderRadius: '12px', boxShadow: '0 0 30px rgba(99, 102, 241, 0.2)' }}
+              title="SOCIAL COMMANDER OS: The Ghost Hand Reveal (V3 Pro)"
+            ></iframe>
+          </div>
+        </div>
+      </section>
 
       {/* THE API TRAP (PAIN POINT) */}
       <section className="api-trap-section">

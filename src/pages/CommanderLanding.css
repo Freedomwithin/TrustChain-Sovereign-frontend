@@ -88,6 +88,30 @@
   letter-spacing: 0.05em;
 }
 
+/* VIDEO DEMO SECTION */
+.demo-video-section {
+  margin-bottom: 10rem;
+  padding: 0 2rem;
+  animation: fadeIn 1s ease-out;
+}
+
+.video-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  background: #0F172A;
+  border-radius: 24px;
+  padding: 1.5rem;
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.5), 0 0 20px rgba(99, 102, 241, 0.1);
+  transition: all 0.4s ease;
+}
+
+.video-container:hover {
+  border-color: rgba(99, 102, 241, 0.4);
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(99, 102, 241, 0.2);
+  transform: translateY(-5px);
+}
+
 /* SECTIONS COMMON */
 .section-title {
   font-size: 3rem;
