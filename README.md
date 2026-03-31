@@ -5,7 +5,7 @@
 
 **Live Interface:** [trustchainsovereign.com](https://trustchainsovereign.com)  
 **Project Status:** Institutional Hardening (Production-Ready)  
-**Build Version:** 3.1.0-Sovereign (Hardened)
+# Build Version:** 3.2.0-Sovereign (The Sentinel's Eye)
 
 </div>
 
@@ -17,6 +17,7 @@ The TrustChain HUD is designed for high-fidelity, real-time forensic monitoring 
 
 ### 🚀 Core Interface Features
 
+- **Temporal Sentiment Index (NEW):** High-fidelity visualization of transaction timing regularity to identify mechanical bursts live on the HUD.
 - **Gini/HHI Forensics HUD:** Real-time data visualization of wallet behavior, concentration indices, and temporal synchronization.
 - **The "Steward" Multiplier:** Visualizing on-chain reputation and governance weighting through the TrustChain Notary Bridge.
 - **Real-Time Sentinel Sync:** Sub-3,000ms response window for live wallet verification.

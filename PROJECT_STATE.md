@@ -16,8 +16,9 @@ Successfully upgraded the HUD to display high-fidelity behavioral metrics. The "
 ## 🚀 Recent Strikes
 - [x] **Hook Alignment:** Updated `useIntegrity.ts` to consume the new `temporalIndex` payload.
 - [x] **Visual Sentinel:** Implemented the "Temporal Sentiment Index" gauge in `RiskDetail.jsx`.
-- [x] **Dynamic Resonance:** Added color-coded bot-burst indicators (Red for >0.80).
-- [x] **Git Sync:** Pushed visual updates to `main` branch.
+- [x] **Dynamic Resonance:** Added color-coded bot-burst indicators.
+- [x] **Visual Verification:** Confirmed HUD accurately displays real-time `temporalIndex` and `SENTINEL_LATENCY`.
+- [x] **Git Sync:** Pushed visual updates to `main` (SHA: `d2be067`).
 
 ## 🚀 Next Steps (For Wednesday Redo)
 - [ ] **Walkthrough Prep:** Rehearse the "Honeypot" test wallet demonstration.
