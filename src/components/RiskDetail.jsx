@@ -1,7 +1,7 @@
 import './RiskDetail.css';
 import { getStatusDisplay } from '../utils/statusDisplay';
 
-const RiskDetail = ({ status, giniScore, hhiScore, syncIndex, reason, latencyMs, loading, error, refetch, totalScore, fairScaleSocial, isSimulationMode }) => {
+const RiskDetail = ({ status, giniScore, hhiScore, temporalIndex, reason, latencyMs, loading, error, refetch, totalScore, fairScaleSocial, isSimulationMode }) => {
   if (loading) {
     return (
       <div className="risk-detail-card">
@@ -156,6 +156,15 @@ const RiskDetail = ({ status, giniScore, hhiScore, syncIndex, reason, latencyMs,
             )}
 
             {status === 'ERROR' && <div style={{ fontSize: '0.8rem', marginTop: '0.5rem', color: '#9ca3af' }}>Insufficient transaction history.</div>}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default RiskDetail;
+ufficient transaction history.</div>}
           </div>
         )}
       </div>

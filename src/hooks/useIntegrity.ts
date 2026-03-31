@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://trustchain-2-backend.vercel.app';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://trustchain-sovereign-backend.vercel.app';
 
 export interface IntegrityData {
     giniScore: number | null;
     hhiScore: number | null;
-    syncIndex: number | null;
+    temporalIndex: number | null;
     reason: string | null;
     latencyMs: number | null;
     status: string | null;
@@ -18,7 +18,7 @@ export function useIntegrity(): IntegrityData {
     const { publicKey, connected } = useWallet();
     const [giniScore, setGiniScore] = useState<number | null>(null);
     const [hhiScore, setHhiScore] = useState<number | null>(null);
-    const [syncIndex, setSyncIndex] = useState<number | null>(null);
+    const [temporalIndex, setTemporalIndex] = useState<number | null>(null);
     const [reason, setReason] = useState<string | null>(null);
     const [latencyMs, setLatencyMs] = useState<number | null>(null);
     const [status, setStatus] = useState<string | null>(null);
@@ -46,11 +46,11 @@ export function useIntegrity(): IntegrityData {
             })
             .then(data => {
                 if (!abortController.signal.aborted) {
-                    // Parse new response shape: { status, scores: { gini, hhi, syncIndex }, reason, latencyMs }
+                    // Parse response shape: { status, scores: { gini, hhi, temporalIndex }, reason, latencyMs }
                     const scores = data.scores || {};
                     setGiniScore(scores.gini != null ? parseFloat(scores.gini) : null);
                     setHhiScore(scores.hhi != null ? parseFloat(scores.hhi) : null);
-                    setSyncIndex(scores.syncIndex != null ? parseFloat(scores.syncIndex) : null);
+                    setTemporalIndex(scores.temporalIndex != null ? parseFloat(scores.temporalIndex) : null);
                     setReason(data.reason || null);
                     setLatencyMs(data.latencyMs != null ? parseFloat(data.latencyMs) : null);
                     setStatus(data.status);
@@ -61,7 +61,6 @@ export function useIntegrity(): IntegrityData {
                 if (!abortController.signal.aborted) {
                     console.error('Verify error:', err);
                     const errorMessage = err instanceof Error ? err.message : 'Unknown error';
-                    // Check for network errors or specific connection issues
                     if (errorMessage.includes('Failed to fetch') || errorMessage.includes('Network request failed')) {
                         setError('Sentinel Offline - Check RPC Connection');
                     } else {
@@ -73,7 +72,7 @@ export function useIntegrity(): IntegrityData {
         } else {
             setGiniScore(null);
             setHhiScore(null);
-            setSyncIndex(null);
+            setTemporalIndex(null);
             setReason(null);
             setLatencyMs(null);
             setStatus(null);
@@ -86,5 +85,5 @@ export function useIntegrity(): IntegrityData {
         };
     }, [connected, publicKey]);
 
-    return { giniScore, hhiScore, syncIndex, reason, latencyMs, status, loading, error };
+    return { giniScore, hhiScore, temporalIndex, reason, latencyMs, status, loading, error };
 }
