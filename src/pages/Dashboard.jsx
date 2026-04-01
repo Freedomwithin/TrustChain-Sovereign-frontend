@@ -20,7 +20,7 @@ function WalletIntegrity({ isSimulationMode, showToast }) {
   let scores = data?.scores || {};
   let giniScore = scores.gini != null ? parseFloat(scores.gini) : null;
   let hhiScore = scores.hhi != null ? parseFloat(scores.hhi) : null;
-  let syncIndex = scores.syncIndex != null ? parseFloat(scores.syncIndex) : null;
+  let temporalIndex = scores.temporalIndex != null ? parseFloat(scores.temporalIndex) : null;
   let reason = data?.reason || null;
   let latencyMs = data?.latencyMs != null ? parseFloat(data.latencyMs) : null;
   let totalScore = data?.totalScore != null ? parseFloat(data.totalScore) : null;
@@ -33,7 +33,7 @@ function WalletIntegrity({ isSimulationMode, showToast }) {
     status = "VERIFIED";
     giniScore = 0.125;
     hhiScore = 0.082;
-    syncIndex = 0.150;
+    temporalIndex = 0.150;
     reason = "Institutional Integrity Confirmed via Notary";
     totalScore = 95;
     fairScaleSocial = 80;
@@ -49,7 +49,7 @@ function WalletIntegrity({ isSimulationMode, showToast }) {
         status={status}
         giniScore={giniScore}
         hhiScore={hhiScore}
-        syncIndex={syncIndex}
+        temporalIndex={temporalIndex}
         reason={reason}
         latencyMs={latencyMs}
         loading={loading}

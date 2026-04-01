@@ -1,7 +1,7 @@
 import './RiskDetail.css';
 import { getStatusDisplay } from '../utils/statusDisplay';
 
-const RiskDetail = ({ status, giniScore, hhiScore, syncIndex, reason, latencyMs, loading, error, refetch, totalScore, fairScaleSocial, isSimulationMode }) => {
+const RiskDetail = ({ status, giniScore, hhiScore, temporalIndex, reason, latencyMs, loading, error, refetch, totalScore, fairScaleSocial, isSimulationMode }) => {
   if (loading) {
     return (
       <div className="risk-detail-card">
@@ -19,10 +19,8 @@ const RiskDetail = ({ status, giniScore, hhiScore, syncIndex, reason, latencyMs,
   }
 
   const isProbationary = status === 'PROBATIONARY';
-  // Check if scores are effectively null/insufficient
   const hasInsufficientData = isProbationary && (giniScore == null || isNaN(giniScore));
 
-  // Calculate contributions for the dual progress bar
   const socialContrib = (fairScaleSocial !== undefined && fairScaleSocial !== null) ? (fairScaleSocial * 0.3) : 0;
   const behavioralContrib = (totalScore !== undefined && totalScore !== null) ? Math.max(0, totalScore - socialContrib) : 0;
   const showScore = totalScore !== undefined && totalScore !== null;
@@ -46,7 +44,6 @@ const RiskDetail = ({ status, giniScore, hhiScore, syncIndex, reason, latencyMs,
           </div>
         ) : (
           <div className="metrics-container">
-            {/* System Latency */}
             {latencyMs != null && (
               <div style={{ fontSize: '0.75rem', color: '#9ca3af', marginBottom: '0.8rem', fontFamily: 'monospace', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
                 <span className="pulsing-dot" style={{ width: '8px', height: '8px', background: '#00ffa3', borderRadius: '50%', display: 'inline-block' }}></span>
@@ -54,7 +51,6 @@ const RiskDetail = ({ status, giniScore, hhiScore, syncIndex, reason, latencyMs,
               </div>
             )}
 
-            {/* Total Score Display & Dual Progress Bar */}
             {showScore && (
               <>
                 <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
@@ -74,7 +70,7 @@ const RiskDetail = ({ status, giniScore, hhiScore, syncIndex, reason, latencyMs,
                         style={{
                           width: `${behavioralContrib}%`,
                           height: '100%',
-                          background: '#34d399', // Green for Behavioral
+                          background: '#34d399', 
                           transition: 'width 0.5s ease'
                         }}
                       />
@@ -82,7 +78,7 @@ const RiskDetail = ({ status, giniScore, hhiScore, syncIndex, reason, latencyMs,
                         style={{
                           width: `${socialContrib}%`,
                           height: '100%',
-                          background: '#60a5fa', // Blue for Social
+                          background: '#60a5fa', 
                           transition: 'width 0.5s ease'
                         }}
                       />
@@ -95,27 +91,22 @@ const RiskDetail = ({ status, giniScore, hhiScore, syncIndex, reason, latencyMs,
               </>
             )}
 
-            {/* Probabilty Refetch Button */}
             {isProbationary && refetch && (
                  <div style={{ marginBottom: '10px' }}>
                     <button onClick={refetch} className="refetch-button">Refresh Status</button>
                  </div>
             )}
 
-            {/* Gini Score with Tooltip */}
             <div className="tooltip-container">
               <small>
-                  Personal Gini Score: {Number.isFinite(giniScore) ? giniScore.toFixed(4) : (hasInsufficientData ? 'N/A' : 'N/A')}
+                  Personal Gini Score: {Number.isFinite(giniScore) ? giniScore.toFixed(4) : 'N/A'}
                   {hasInsufficientData && <span style={{marginLeft: '5px', fontSize: '0.8em', color: '#fbbf24'}}>(Insufficient Data)</span>}
               </small>
               <span className="tooltip-text">
-                  {hasInsufficientData
-                    ? "Probationary: Insufficient Data. Wallet has too few transactions (0-2) for reliable scoring."
-                    : "Gini Coefficient: Measures wealth inequality (0-1). Lower is better distribution."}
+                  Gini Coefficient: Measures wealth inequality (0-1). Lower is better distribution.
               </span>
             </div>
 
-            {/* HHI Score */}
             {hhiScore != null && !Number.isNaN(hhiScore) && (
               <div className="hhi-bar-container">
                 <div className="tooltip-container" style={{ width: '100%', borderBottom: 'none' }}>
@@ -124,7 +115,7 @@ const RiskDetail = ({ status, giniScore, hhiScore, syncIndex, reason, latencyMs,
                     <span>{hhiScore.toFixed(4)}</span>
                   </div>
                   <span className="tooltip-text">
-                    Herfindahl-Hirschman Index: Detects wallet concentration. {"Scores > 0.25"} indicate "Whale" behavior or low liquidity spread.
+                    Herfindahl-Hirschman Index: Detects wallet concentration. Scores &gt; 0.25 indicate low liquidity spread.
                   </span>
                 </div>
                 <div className="hhi-track">
@@ -139,17 +130,16 @@ const RiskDetail = ({ status, giniScore, hhiScore, syncIndex, reason, latencyMs,
               </div>
             )}
 
-            {/* Always show the insight box if there is a reason OR a risk status */}
             {(reason || ['SYBIL', 'PROBATIONARY', 'VERIFIED'].includes(status)) && (
               <div className="insight-box">
                 <strong>Agent Insight:</strong> {reason || "Sovereign patterns verified."}
 
-                {syncIndex !== null && syncIndex !== undefined && (
+                {temporalIndex !== null && temporalIndex !== undefined && (
                   <div className="tooltip-container" style={{ display: 'block', marginTop: '0.5rem', borderBottom: 'none' }}>
                     <div style={{ fontSize: '0.8rem', color: '#fff', borderTop: '1px solid rgba(255, 215, 0, 0.2)', paddingTop: '0.5rem' }}>
-                      Temporal Sync Index: <strong>{syncIndex.toFixed(2)}</strong>
+                      Temporal Sentiment Index: <strong style={{ color: temporalIndex > 0.8 ? '#ef4444' : temporalIndex > 0.6 ? '#fbbf24' : '#00ffa3' }}>{temporalIndex.toFixed(2)}</strong>
                     </div>
-                    <span className="tooltip-text">Measures transaction timing regularity. High values indicate bot activity.</span>
+                    <span className="tooltip-text">Standard deviation of transaction timing. High values (0.8+) detect mechanical/bot bursts.</span>
                   </div>
                 )}
               </div>

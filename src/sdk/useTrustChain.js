@@ -116,7 +116,7 @@ export function useTrustChain(options = {}) {
         status: 'VERIFIED',
         totalScore: 90,
         fairScaleSocial: 85,
-        scores: { gini: 0.15, hhi: 0.05, syncIndex: 0.1 },
+        scores: { gini: 0.15, hhi: 0.05, temporalIndex: 0.1 },
         governance: {
           tier: 'Steward',
           voterWeightMultiplier: 1.5,
