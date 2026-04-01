@@ -96,7 +96,7 @@ const LandingPage = () => {
           <h2 className="section-title">Protocol Reveal</h2>
           <div className="video-wrapper glass-morph">
             <iframe 
-              src="https://vimeo.com/1179204911?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
+              src="https://player.vimeo.com/video/1179204911?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
               frameBorder="0" 
               allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" 
               style={{ width: '100%', aspectRatio: '16/9', borderRadius: '4px' }}
