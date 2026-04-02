@@ -40,9 +40,10 @@ const LandingPage = () => {
             TrustChain is an autonomous security layer that identifies inhuman transaction patterns 
             through real-time entropy analysis. Secure your protocol with sovereign intelligence.
           </p>
-          <div className="cta-group">
+          <div className="cta-group" key="sovereign-ctas">
             <button className="btn-primary glow-green" onClick={() => navigate('/dashboard')}>LAUNCH CONSOLE</button>
-            <Link to="/specs" className="btn-secondary" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>PROTOCOL SPECS</Link>
+            <button className="btn-secondary glow-indigo" onClick={() => navigate('/bridge')}>CROSS THE BRIDGE</button>
+            <Link to="/specs" className="btn-secondary cta-link" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>PROTOCOL SPECS</Link>
           </div>
         </div>
       </header>

@@ -6,6 +6,7 @@ import SpecsPage from './pages/SpecsPage';
 import VisionPage from './pages/VisionPage';
 import Dashboard from './pages/Dashboard';
 import CommanderLanding from './pages/CommanderLanding';
+import BridgePage from './pages/BridgePage';
 import './App.css';
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
           <Route path="/vision" element={<VisionPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/commander" element={<CommanderLanding />} />
+          <Route path="/bridge" element={<BridgePage />} />
         </Routes>
       </div>
     </Router>
