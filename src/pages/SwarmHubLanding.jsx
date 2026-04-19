@@ -6,53 +6,67 @@ const SwarmHubLanding = () => {
   const [showPayment, setShowPayment] = useState(false);
   const [copied, setCopied] = useState(false);
   const [email, setEmail] = useState("");
-  const [waitlistStatus, setWaitlistStatus] = useState("Apply for Beta Access");
+  const [waitlistStatus, setWaitlistStatus] = useState("Join the Waitlist — Get 50% Off");
 
   const solAddress = "GAZDwoHW6x4QCaWXizhckqta6v7nFYEFg2aULTk52k7b";
+  const generalBtcLink = "bitcoin:bc1q6kmtqp5a6pv6449kksggdzn905d2raj9t2mlcu?message=swarm-hub-website-payments-seed";
 
   const tiers = [
     {
-      id: 'pro-monthly',
-      name: 'Pro Monthly',
-      price: '$500',
-      period: '/mo',
-      desc: 'For high-velocity R&D teams.',
+      id: 'self-hosted',
+      name: 'Sovereign Enterprise',
+      price: '$5,000',
+      period: '/year',
+      originalPrice: '$10,000',
+      stripeLink: 'https://buy.stripe.com/fZu9AS9jD23obi74S973G03', // Placeholder: Reuse Sovereign link
+      btcLink: 'bitcoin:bc1qc4j2qpr6fn2c2c8asxxjukwfzgra8q4ce6fk2g?amount=0.00353043&message=Swarm%20Hub%20Enterprise',
+      desc: 'Absolute Sovereignty for elite research organizations.',
       features: [
-        '100 Swarm Runs / Month',
-        'Cloud-Hosted Infrastructure',
-        'PhD-Level Expert Forge',
-        'Persistent Semantic Memory',
-        'Priority Technical Support'
+        'Unlimited Swarm Runs',
+        'On-Prem / Local Hardware',
+        'Zero Data Leakage (Air-Gapped)',
+        'Full Logic Transparency',
+        'Custom Persona Integration',
+        'Dedicated IP Pool Support'
       ],
-      highlight: true
+      highlight: false
     },
     {
       id: 'pro-annual',
       name: 'Pro Annual',
       price: '$5,000',
       period: '/year',
-      desc: 'Best value for long-term research.',
+      originalPrice: '$10,000',
+      stripeLink: 'https://buy.stripe.com/5kQ4gy2Vf6jEcmb2K173G04', // Placeholder: Reuse Commander link
+      btcLink: 'bitcoin:bc1q5cer6sm023lvrvkavf4hyq6padwzk4xw6zqfjh?amount=0.00176514&message=Swarm%20Hub%20Annual',
+      desc: 'Best value for long-term materials & biotech research.',
       features: [
         '150 Swarm Runs / Month',
         'Cloud-Hosted Infrastructure',
-        'All Pro Features Included',
+        'PhD-Level Expert Forge',
+        'Persistent Semantic Memory',
         '2 Months Free Equivalent',
-        'Dedicated Success Manager'
+        'Priority Technical Support'
       ],
-      highlight: false
+      highlight: true,
+      badge: 'Best Value'
     },
     {
-      id: 'self-hosted',
-      name: 'Self-Hosted',
-      price: '$5,000',
-      period: '/year',
-      desc: 'Absolute Sovereignty for elite orgs.',
+      id: 'pro-monthly',
+      name: 'Pro Monthly',
+      price: '$500',
+      period: '/mo',
+      originalPrice: '$1,000',
+      stripeLink: 'https://buy.stripe.com/3cI14meDX8rM2LB3O573G05', // Placeholder: Reuse Strategist link
+      btcLink: 'bitcoin:bc1qh9f07l0u9x50wh0a8za8rpt8we49tv9zrwrvn8?amount=0.00070597&message=Swarm%20Hub%20Monthly',
+      desc: 'For high-velocity teams solving immediate R&D blockers.',
       features: [
-        'Unlimited Swarm Runs',
-        'On-Prem / Local Hardware',
-        'Zero Data Leakage (Air-Gapped)',
-        'Full Logic Transparency',
-        'Custom Persona Integration'
+        '100 Swarm Runs / Month',
+        'PhD-Level Expert Forge',
+        'Persistent Semantic Memory',
+        'One-Click Anchored Reports',
+        'Verifiable Agency (λ = 0.47)',
+        'Email Support'
       ],
       highlight: false
     }
@@ -61,6 +75,19 @@ const SwarmHubLanding = () => {
   const handleSelectTier = (tier) => {
     setSelectedTier(tier);
     setShowPayment(true);
+    setCopied(false);
+  };
+
+  const handleStripeRedirect = () => {
+    if (selectedTier && selectedTier.stripeLink) {
+      window.open(selectedTier.stripeLink, '_blank');
+    }
+  };
+
+  const handleBtcRedirect = () => {
+    if (selectedTier && selectedTier.btcLink) {
+      window.location.href = selectedTier.btcLink;
+    }
   };
 
   const handleCopySol = () => {
@@ -93,6 +120,7 @@ const SwarmHubLanding = () => {
           <button className="primary-btn lg" onClick={() => document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' })}>Get Started</button>
           <button className="secondary-btn lg" onClick={() => document.getElementById('features').scrollIntoView({ behavior: 'smooth' })}>Explore Architecture</button>
         </div>
+        <div className="urgency-tag">🚀 v6.0 "Neural Sentinel" early access is limited to 25 teams.</div>
       </header>
 
       {/* VALUE PROP SECTION */}
@@ -105,7 +133,7 @@ const SwarmHubLanding = () => {
             <div className="value-card">
               <div className="value-icon">🧠</div>
               <h3>Expert Forge</h3>
-              <p>Launch Materials Scientists, Molecular Biologists, and Quantitative Analysts on demand. Each agent is tuned for high-fidelity architectural output.</p>
+              <p>Launch Materials Scientists, Molecular Biologists, and Quantitative Analysts on demand. Each agent is tuned for high-signal architectural output.</p>
             </div>
             <div className="value-card">
               <div className="value-icon">🧬</div>
@@ -150,8 +178,9 @@ const SwarmHubLanding = () => {
           <div className="pricing-grid">
             {tiers.map((tier) => (
               <div key={tier.id} className={`pricing-card ${tier.highlight ? 'highlighted' : ''}`}>
-                {tier.highlight && <div className="popular-badge">Most Advanced</div>}
+                {tier.badge && <div className="popular-badge">{tier.badge}</div>}
                 <div className="tier-header">
+                  <span className="original-price">{tier.originalPrice}</span>
                   <h3>{tier.name}</h3>
                   <div className="price">{tier.price}<span>{tier.period}</span></div>
                 </div>
@@ -163,7 +192,7 @@ const SwarmHubLanding = () => {
                   className={`pricing-btn ${tier.highlight ? 'primary' : ''}`}
                   onClick={() => handleSelectTier(tier)}
                 >
-                  {tier.id === 'self-hosted' ? 'Contact for Setup' : `Start with ${tier.name}`}
+                  {tier.id === 'self-hosted' ? 'Reserve Enterprise' : `Start with ${tier.name.split(' ')[1]}`}
                 </button>
               </div>
             ))}
@@ -171,33 +200,45 @@ const SwarmHubLanding = () => {
         </div>
       </section>
 
-      {/* PAYMENT MODAL */}
+      {/* PAYMENT MODAL (High-Conversion Bridge) */}
       {showPayment && (
         <div className="payment-overlay">
           <div className="payment-modal">
             <button className="close-modal" onClick={() => setShowPayment(false)}>×</button>
             <div className="modal-header">
-              <div className="labs-badge">RESERVE SEAT</div>
+              <div className="labs-badge">SECURE CHECKOUT</div>
               <h2>{selectedTier.name}</h2>
               <p className="modal-price">{selectedTier.price}<span>{selectedTier.period}</span></p>
             </div>
             
-            <div className="payment-content">
-              <p>We are currently onboarding elite teams for the v6.0 launch. Reserve your priority seat with a direct Solana transfer.</p>
-              <div className="sol-container">
-                <label>SOLANA DEPOSIT ADDRESS</label>
-                <div className="address-box" onClick={handleCopySol}>
-                  {solAddress}
-                  <span className="copy-hint">{copied ? 'COPIED!' : 'CLICK TO COPY'}</span>
+            <div className="payment-options">
+              <div className="payment-method">
+                <h3>Pay with Card</h3>
+                <p>Secure checkout via Stripe</p>
+                <button className="checkout-btn stripe-btn" onClick={handleStripeRedirect}>Proceed to Stripe</button>
+              </div>
+              
+              <div className="payment-method crypto-method">
+                <h3>Pay with Crypto</h3>
+                <p>Direct payment in BTC or SOL</p>
+                <div className="crypto-btns">
+                  <button className="checkout-btn btc-btn" onClick={handleBtcRedirect}>Pay with Bitcoin</button>
+                  <button className={`checkout-btn sol-btn ${copied ? 'copied' : ''}`} onClick={handleCopySol}>
+                    {copied ? 'Address Copied!' : 'Copy Solana Address'}
+                  </button>
+                </div>
+                <div className="alt-crypto">
+                  <a href={generalBtcLink} className="custom-amt-link">Use Custom BTC Amount</a>
                 </div>
               </div>
-              <p className="disclaimer">Seats are limited to 25 teams per cohort to ensure dedicated support.</p>
             </div>
+            
+            <p className="payment-disclaimer">Activation is instant upon confirmation. All research data remains sovereign.</p>
           </div>
         </div>
       )}
 
-      {/* FOOTER CTA */}
+      {/* FOOTER CTA & LINKS */}
       <footer className="swarm-footer">
         <div className="section-content">
           <h2 className="section-title">Build the Impossible.</h2>
@@ -212,6 +253,15 @@ const SwarmHubLanding = () => {
             />
             <button type="submit" className="primary-btn">{waitlistStatus}</button>
           </form>
+          
+          <div className="footer-links">
+            <div className="footer-brand">© 2026 TrustChain Labs</div>
+            <div className="legal-links">
+              <a href="#privacy">Privacy Policy</a>
+              <a href="#terms">Terms of Service</a>
+              <a href="https://github.com/Freedomwithin" target="_blank" rel="noopener noreferrer">Infrastructure Source</a>
+            </div>
+          </div>
         </div>
       </footer>
     </div>
