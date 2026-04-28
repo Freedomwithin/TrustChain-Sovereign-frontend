@@ -57,13 +57,22 @@ const VisionPage = () => {
       </div>
 
       <section className="vision-statement">
-        <h3>Our Core Philosophy</h3>
+        <h3>Our Core Philosophy: The Biological Network</h3>
         <p>
-          TrustChain is not just a tool; it is a philosophy of digital sovereignty. 
-          We believe that decentralized networks deserve the same level of immunity 
-          as biological systems. By monitoring "rhythm" and "entropy" instead of just 
-          static signatures, we create a network that grows stronger with every 
-          attempted breach.
+          TrustChain is not just a security tool; it is a manifesto for digital sovereignty. 
+          We believe that decentralized networks are living organisms, and as such, they 
+          deserve the same level of adaptive immunity as biological systems. Traditional 
+          security is reactive—it waits for a signature to be known before it acts. 
+          TrustChain is <strong>proactive</strong>.
+        </p>
+        <p>
+          By monitoring the "Rhythm" and "Entropy" of transaction flows rather than just 
+          static address blacklists, we create a network that understands the difference 
+          between organic human community and mechanical manipulation. Our vision is a 
+          future where every protocol is protected by an autonomous, self-healing 
+          Sovereign Immune System—a network that grows stronger and more resilient 
+          with every attempted breach. We are building the bridge between digital 
+          architecture and biological intelligence.
         </p>
       </section>
     </div>

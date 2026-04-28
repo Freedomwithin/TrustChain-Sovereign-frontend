@@ -37,7 +37,6 @@ const Navbar = () => {
           <Link to="/specs" className="nav-item" onClick={() => setMobileMenuOpen(false)}>SPECS</Link>
           <Link to="/vision" className="nav-item" onClick={() => setMobileMenuOpen(false)}>VISION</Link>
           <Link to="/bridge" className="nav-item" style={{ color: '#6366f1', fontWeight: 'bold' }} onClick={() => setMobileMenuOpen(false)}>BRIDGE</Link>
-          <Link to="/commander" className="nav-item" style={{ color: '#C084FC', fontWeight: 'bold' }} onClick={() => setMobileMenuOpen(false)}>COMMANDER</Link>
           <Link to="/swarm-hub" className="nav-item" style={{ color: '#A5B4FC', fontWeight: 'bold' }} onClick={() => setMobileMenuOpen(false)}>SWARM HUB</Link>
           <a href="https://github.com/Freedomwithin/TrustChain-Sovereign-frontend" target="_blank" rel="noopener noreferrer" className="nav-item">GITHUB</a>
           <button className="nav-cta" onClick={() => handleNavClick('/dashboard')}>LAUNCH CONSOLE</button>

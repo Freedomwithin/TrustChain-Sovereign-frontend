@@ -20,7 +20,7 @@ function App() {
           <Route path="/specs" element={<SpecsPage />} />
           <Route path="/vision" element={<VisionPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/commander" element={<CommanderLanding />} />
+          {/* <Route path="/commander" element={<CommanderLanding />} /> */}
           <Route path="/swarm-hub" element={<SwarmHubLanding />} />
           <Route path="/bridge" element={<BridgePage />} />
         </Routes>

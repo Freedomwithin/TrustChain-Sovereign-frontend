@@ -19,11 +19,19 @@ const SpecsPage = () => {
             <h3>Behavioral Firewall</h3>
           </div>
           <div className="spec-body">
-            <p>The Behavioral Firewall operates at the ingestion layer, analyzing transaction entropy before state commitment.</p>
+            <p>
+              The Behavioral Firewall represents the first line of defense in the TrustChain immune system. 
+              It operates at the ingestion layer, intercepting incoming transaction data from the gRPC 
+              Yellowstone stream before state commitment occurs. By utilizing a high-performance 
+              pattern-matching engine, the firewall identifies known mechanical signatures—such as 
+              identical transaction structures across multiple addresses—and routes them to the 
+              surgical isolation layer.
+            </p>
             <ul>
-              <li><strong>Latency:</strong> &lt; 15ms overhead</li>
-              <li><strong>Detection:</strong> Real-time pattern matching</li>
+              <li><strong>Latency:</strong> &lt; 15ms overhead on state processing</li>
+              <li><strong>Detection:</strong> Real-time mechanical pattern matching</li>
               <li><strong>Isolation:</strong> Automated Sybil trap triggering</li>
+              <li><strong>Throughput:</strong> Scalable to 50k+ TPS</li>
             </ul>
           </div>
         </div>
@@ -35,11 +43,19 @@ const SpecsPage = () => {
             <h3>Gini Forensics</h3>
           </div>
           <div className="spec-body">
-            <p>Calculates the concentration of token distribution and voting power across address clusters.</p>
+            <p>
+              The Gini Forensics engine provides a statistical lens for measuring the concentration of wealth 
+              and governance power. By applying the Gini Coefficient—a worldwide standard for measuring 
+              economic inequality—TrustChain identifies address clusters that exhibit unnatural "clumpiness." 
+              If a group of wallets moves in a way that suggests a single entity controlling a 
+              disproportionate share of a protocol's liquidity, the Gini Sentinel triggers an immediate 
+              parity breach alert.
+            </p>
             <ul>
-              <li><strong>Hard Threshold:</strong> 0.70 (Adjustable by DAO)</li>
-              <li><strong>Sampling Frequency:</strong> Every 50 slots</li>
-              <li><strong>Alert Trigger:</strong> Parity breach &gt; 5%</li>
+              <li><strong>Hard Threshold:</strong> 0.70 (Adjustable via DAO governance)</li>
+              <li><strong>Sampling Frequency:</strong> Every 50 slots for deep cluster analysis</li>
+              <li><strong>Alert Trigger:</strong> Parity breach &gt; 5% deviation from baseline</li>
+              <li><strong>Metric:</strong> Lorentz Curve statistical dispersion</li>
             </ul>
           </div>
         </div>
@@ -51,11 +67,19 @@ const SpecsPage = () => {
             <h3>Temporal Sentinel</h3>
           </div>
           <div className="spec-body">
-            <p>Analyzes the "rhythm" of address activity to distinguish between human and algorithmic interaction.</p>
+            <p>
+              The Temporal Sentinel is our primary tool for algorithmic detection. It analyzes the "rhythm" 
+              of address activity, measuring the standard deviation of inter-arrival times between 
+              transactions. Human interactions are naturally stochastic and "messy," whereas bot swarms 
+              exhibit a signature of mechanical regularity. By maintaining a relentless 3,000ms sliding 
+              window, the Temporal Sentinel can distinguish between a user and a machine with sub-second 
+              precision.
+            </p>
             <ul>
-              <li><strong>Window Size:</strong> 3,000ms sliding</li>
-              <li><strong>Metric:</strong> Standard deviation of inter-arrival times</li>
-              <li><strong>Penalty:</strong> Immediate reputation degradation</li>
+              <li><strong>Window Size:</strong> 3,000ms rolling analysis</li>
+              <li><strong>Metric:</strong> Inter-arrival time (IAT) variance</li>
+              <li><strong>Penalty:</strong> Immediate reputation degradation to RESTRICTED</li>
+              <li><strong>Validation:</strong> Sub-3s response time</li>
             </ul>
           </div>
         </div>
@@ -67,11 +91,19 @@ const SpecsPage = () => {
             <h3>HHI Gatekeeper</h3>
           </div>
           <div className="spec-body">
-            <p>Monitors market concentration using the Herfindahl-Hirschman Index.</p>
+            <p>
+              The HHI Gatekeeper monitors the structural integrity of liquidity pools and governance vaults. 
+              Using the Herfindahl-Hirschman Index (HHI)—the U.S. Department of Justice’s standard for 
+              antitrust enforcement—it detects when power becomes too concentrated in a specific sector. 
+              When the HHI threshold is breached, the Gatekeeper activates a dual-key authentication 
+              protocol, requiring additional verification for high-impact events until the concentration 
+              spike subsides.
+            </p>
             <ul>
               <li><strong>Logic:</strong> Dual-key authentication for high-HHI events</li>
               <li><strong>Scope:</strong> Liquidity pools & Governance vaults</li>
               <li><strong>Response:</strong> Rate-limiting under centralisation spikes</li>
+              <li><strong>Origin:</strong> DOJ Antitrust Enforcement Standard</li>
             </ul>
           </div>
         </div>
