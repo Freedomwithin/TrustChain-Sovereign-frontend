@@ -48,14 +48,13 @@ const LandingPage = () => {
             <span className="text-sub">For the Solana Network</span>
           </h1>
           <p className="hero-subtitle">
-            Think of TrustChain as the cloudfare for Solana. A high-speed behavioral camera for the blockchain. 
-            While others look for bugs in code, we look for inhuman behavior. 
-            Identify coordinated bot swarms and Sybil attacks in real-time before they drain your liquidity.
+            TrustChain is the "Cloudflare for Solana." While others search for bugs in code, we identify inhuman behavior in real-time. 
+            Protect your liquidity and ensure your community remains human with our high-speed behavioral camera.
           </p>
           <div className="cta-group" key="sovereign-ctas">
-            <button className="btn-primary glow-green" onClick={() => navigate('/dashboard')}>LAUNCH CONSOLE</button>
-            <button className="btn-secondary glow-indigo" onClick={() => navigate('/bridge')}>CROSS THE BRIDGE</button>
-            <Link to="/specs" className="btn-secondary cta-link" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>PROTOCOL SPECS</Link>
+            <button className="btn-primary glow-green" onClick={() => navigate('/dashboard')}>LAUNCH LIVE INTERFACE</button>
+            <button className="btn-secondary glow-indigo" onClick={() => navigate('/bridge')}>TRAINING SIMULATOR</button>
+            <Link to="/specs" className="btn-secondary cta-link" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>TECHNICAL SPECS</Link>
           </div>
         </div>
       </header>

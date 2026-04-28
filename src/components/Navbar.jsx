@@ -39,7 +39,7 @@ const Navbar = () => {
           <Link to="/bridge" className="nav-item" style={{ color: '#6366f1', fontWeight: 'bold' }} onClick={() => setMobileMenuOpen(false)}>BRIDGE</Link>
           <Link to="/swarm-hub" className="nav-item" style={{ color: '#A5B4FC', fontWeight: 'bold' }} onClick={() => setMobileMenuOpen(false)}>SWARM HUB</Link>
           <a href="https://github.com/Freedomwithin/TrustChain-Sovereign-frontend" target="_blank" rel="noopener noreferrer" className="nav-item">GITHUB</a>
-          <button className="nav-cta" onClick={() => handleNavClick('/dashboard')}>LAUNCH CONSOLE</button>
+          <button className="nav-cta" onClick={() => handleNavClick('/dashboard')}>LIVE INTERFACE</button>
           <div className="nav-wallet-wrapper">
             <WalletMultiButton className="wallet-adapter-button" />
           </div>
