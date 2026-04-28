@@ -132,6 +132,82 @@
   font-size: 0.9rem;
 }
 
+/* MANIFESTO TOGGLE */
+.manifesto-toggle-wrapper {
+  margin-bottom: 3rem;
+}
+
+.manifesto-btn {
+  background: rgba(165, 180, 252, 0.05);
+  border: 1px solid rgba(165, 180, 252, 0.2);
+  color: #a5b4fc;
+  padding: 0.8rem 2rem;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 4px;
+}
+
+.manifesto-btn:hover {
+  background: rgba(165, 180, 252, 0.1);
+  border-color: #a5b4fc;
+  box-shadow: 0 0 20px rgba(165, 180, 252, 0.2);
+}
+
+.swarm-manifesto-window {
+  max-width: 900px;
+  margin: 0 auto 4rem;
+  background: rgba(13, 17, 23, 0.8);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(165, 180, 252, 0.3);
+  text-align: left;
+  padding: 4rem;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+  animation: manifestoFadeIn 0.5s ease-out;
+}
+
+@keyframes manifestoFadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.manifesto-header {
+  margin-bottom: 3rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 2rem;
+}
+
+.manifesto-tag {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.65rem;
+  color: #6366f1;
+  letter-spacing: 3px;
+  font-weight: 800;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.swarm-manifesto-window h3 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.8rem;
+  color: #fff;
+  margin: 0;
+}
+
+.manifesto-content p {
+  color: #94a3b8;
+  font-size: 1rem;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+}
+
+.manifesto-content p:last-child {
+  margin-bottom: 0;
+}
+
 /* CASE STUDY SECTION */
 .case-study-section {
   padding: 8rem 0;
