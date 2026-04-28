@@ -108,12 +108,62 @@ const SwarmHubLanding = () => {
       <header className="swarm-hero">
         <div className="labs-badge">TRUSTCHAIN LABS • SOVEREIGN SERIES</div>
         <h1 className="swarm-title">Beyond Single-Agent AI:<br/><span className="text-highlight">The Multi-Agent Research Engine.</span></h1>
-        <p className="swarm-subtitle">
-          The Sovereign Swarm Hub is a local-first command center that orchestrates teams of specialized, PhD-level AI experts. 
-          While standard LLMs forget your data and drift from their mission, the Hub maintains persistent semantic memory 
-          and a verifiable agency score ($\lambda = 0.47$). Research, audit, and simulate complex multi-domain problems 
-          at a fidelity previously reserved for top-tier institutional labs.
-        </p>
+        <div className="swarm-subtitle-expanded">
+          <p>
+            The Sovereign Swarm Hub represents a paradigm shift in artificial intelligence coordination, 
+            functioning as a local-first command center that orchestrates teams of highly specialized, 
+            PhD-level AI experts. This innovative approach differs significantly from standard large 
+            language models (LLMs), which are often criticized for their inability to retain information 
+            and tendency to drift from their intended mission over time due to the lack of a robust 
+            memory mechanism. In contrast, the Sovereign Swarm Hub is designed to maintain persistent 
+            semantic memory, ensuring that knowledge and insights gained during operations are preserved 
+            and can be built upon, rather than being lost or forgotten. This capacity for long-term 
+            memory enables the Hub to learn from its experiences, refine its understanding of complex 
+            problems, and adapt its strategies to achieve optimal outcomes.
+          </p>
+          <p>
+            A critical aspect of the Sovereign Swarm Hub's design is its ability to provide a 
+            verifiable agency score, denoted by the lambda value ($\lambda = 0.47$). This metric 
+            serves as a quantifiable measure of the system's autonomy and decision-making capabilities, 
+            allowing users to assess the reliability and trustworthiness of the Hub's outputs. By 
+            providing a transparent and objective means of evaluating the system's performance, 
+            the Sovereign Swarm Hub enables users to have confidence in the accuracy and relevance 
+            of the insights and recommendations generated. The lambda value is a key indicator of 
+            the Hub's ability to operate independently, make informed decisions, and respond to 
+            complex situations, thereby ensuring that users can rely on the system to provide 
+            high-quality outputs.
+          </p>
+          <p>
+            One of the primary advantages of the Sovereign Swarm Hub is its capacity to facilitate 
+            research, auditing, and simulation of complex, multi-domain problems. This capability 
+            is particularly significant, as it enables users to tackle challenges that were 
+            previously reserved for top-tier institutional labs, which often possess significant 
+            resources and expertise. By democratizing access to such advanced capabilities, the 
+            Sovereign Swarm Hub has the potential to level the playing field, allowing a broader 
+            range of organizations and individuals to engage with complex problems and develop 
+            innovative solutions.
+          </p>
+          <p>
+            Furthermore, the Sovereign Swarm Hub's local-first architecture ensures that sensitive 
+            data and information remain under the control of the user, rather than being transmitted 
+            to remote servers or cloud-based infrastructure. This approach is particularly important 
+            for organizations or individuals working with sensitive or proprietary information, as 
+            it minimizes the risk of data breaches or unauthorized access. By maintaining control 
+            over their data and insights, users can ensure that their research and development 
+            efforts remain secure and confidential, while still benefiting from the advanced 
+            capabilities and expertise provided by the Sovereign Swarm Hub.
+          </p>
+          <p>
+            The Sovereign Swarm Hub's ability to provide a secure and controlled environment for 
+            research and development is further enhanced by its modular design, which enables 
+            users to customize the system to meet their specific needs and requirements. By 
+            selecting from a range of specialized AI modules, users can tailor the Hub's 
+            capabilities to address specific challenges or problems, and integrate the system 
+            with existing tools and infrastructure. This flexibility and adaptability enable 
+            the Sovereign Swarm Hub to support a wide range of applications and use cases, 
+            from basic research and development to complex decision-making and strategy formulation.
+          </p>
+        </div>
         
         <div className="status-signals">
           <span className="status-badge">$\lambda = 0.47$ AGENCY VERIFIED</span>
