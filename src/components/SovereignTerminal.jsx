@@ -3,8 +3,8 @@ import './SovereignTerminal.css';
 
 const SovereignTerminal = () => {
   const [history, setHistory] = useState([
-    { type: 'system', content: '🏺 [SYSTEM]: INITIALIZING SOVEREIGN GAME ENGINE...' },
-    { type: 'maya', content: "🏺 [MAYA]: 'Architect, the terminal is online. Breach the sectors.'" }
+    { type: 'system', content: '[SYSTEM]: INITIALIZING SOVEREIGN GAME ENGINE...' },
+    { type: 'maya', content: "[SENTINEL]: 'Architect, the terminal is online. Breach the sectors.'" }
   ]);
   const [input, setInput] = useState('');
   const [cwd, setCwd] = useState('/');
@@ -33,16 +33,16 @@ const SovereignTerminal = () => {
   };
 
   const files = {
-    '/.help': "🔑 TRUSTCHAIN QUICKSTART\n\nSECTOR 1: Gini Coefficient\nSECTOR 2: Sybil Detection\nSECTOR 3: Temporal Analysis\n\nUse 'ls', 'cd', 'cat', 'chmod', and 'python3' to navigate.",
-    '/sector_1/README.md': "🎯 MISSION: Calculate the Gini coefficient to unlock the bridge.\n⚡ COMMANDS: 'chmod +x ignite_bridge.sh' then './ignite_bridge.sh'",
-    '/sector_1/theory_gini.md': "📐 GINI COEFFICIENT\nFormula: G = (Σ(2i - n - 1) * x_i) / (n * Σx_i)\nTrustChain uses this to detect wealth concentration.",
-    '/sector_1/ignite_bridge.sh': "🔥 CALCULATING GINI...\n📊 Analyzing distribution...\n✅ Gini Coefficient = 0.267 (Healthy)\n🔓 Bridge ignition authorized!\n✨ RECOVERY_KEY_01: [GENESIS_BLOCK] ✨\n🏺 [MAYA]: 'The Gini is healthy, Architect. One down, two to go.'",
-    '/sector_2/README.md': "🎯 MISSION: Find the fake identity (Sybil wallet) in the log.\n⚡ COMMAND: 'grep RESTRICTED wallet.log'",
-    '/sector_2/theory_sybil.md': "🎭 SYBIL ATTACKS\nDetected via timestamp variance analysis in the Temporal Sentiment Engine.",
-    '/sector_2/wallet.log': "[08:23:12] WALLET: 0x8A4F - STATUS: RESTRICTED - 🔑 KEY_02: [OBSIDIAN_LEDGER]",
-    '/sector_3/README.md': "🎯 MISSION: Override the HHI gatekeeper.\n⚡ COMMAND: 'python3 hhi_gatekeeper.py'",
-    '/sector_3/theory_temporal.md': "⏱️ TEMPORAL SENTIMENT ENGINE\nCalculates standard deviation of inter-arrival times.",
-    '/sector_3/hhi_gatekeeper.py': "📊 CALCULATING HHI...\n⏱️ RUNNING TEMPORAL ANALYSIS...\n✅ Natural variance detected\n🔓 OVERRIDE AUTHORIZED\n✨ RECOVERY_KEY_03: [MARKET_EQUILIBRIUM] ✨\n🏺 [MAYA]: 'The swarm is locked out. You did it, Architect.'",
+    '/.help': "TRUSTCHAIN QUICKSTART\n\nSECTOR 1: Gini Coefficient\nSECTOR 2: Sybil Detection\nSECTOR 3: Temporal Analysis\n\nUse 'ls', 'cd', 'cat', 'chmod', and 'python3' to navigate.",
+    '/sector_1/README.md': "MISSION: Calculate the Gini coefficient to unlock the bridge.\nCOMMANDS: 'chmod +x ignite_bridge.sh' then './ignite_bridge.sh'",
+    '/sector_1/theory_gini.md': "GINI COEFFICIENT\nFormula: G = (sum(2i - n - 1) * x_i) / (n * sum(x_i))\nTrustChain enforces a hard limit of 0.70.\nAbove this threshold, distribution inequality signals bot-driven concentration.",
+    '/sector_1/ignite_bridge.sh': "CALCULATING GINI...\nAnalyzing wallet distribution across 847 active participants...\nGini Coefficient = 0.267 — Healthy organic distribution detected.\nBridge ignition authorized.\nRECOVERY_KEY_01: [GENESIS_BLOCK]",
+    '/sector_2/README.md': "MISSION: Find the restricted wallet (Sybil actor) in the log.\nCOMMAND: 'grep RESTRICTED wallet.log'",
+    '/sector_2/theory_sybil.md': "SYBIL DETECTION\nCoordinated identity networks are detected via correlated transaction timing.\nThe Temporal Sentiment Engine measures inter-arrival standard deviation.\nA variance approaching zero indicates mechanical, non-human regularity.",
+    '/sector_2/wallet.log': "[08:23:12] WALLET: 0x8A4F — STATUS: RESTRICTED — KEY_02: [OBSIDIAN_LEDGER]",
+    '/sector_3/README.md': "MISSION: Override the HHI gatekeeper.\nCOMMAND: 'python3 hhi_gatekeeper.py'",
+    '/sector_3/theory_temporal.md': "TEMPORAL SENTINEL ENGINE\nCalculates standard deviation of inter-arrival times.\nFormula: sigma = sqrt((1/M) * sum((t_m - t_mean)^2))\nWhen sigma approaches 0, mechanical regularity is confirmed.",
+    '/sector_3/hhi_gatekeeper.py': "CALCULATING HHI...\nRunning Temporal Sentinel analysis...\nHHI Index = 0.119 — Concentration within safe threshold.\nTemporal sigma = 0.84 — Natural human variance confirmed.\nDual gatekeeper override authorized.\nRECOVERY_KEY_03: [MARKET_EQUILIBRIUM]",
   };
 
   const handleCommand = (e) => {
@@ -52,6 +52,7 @@ const SovereignTerminal = () => {
       const [cmd, ...args] = fullCmd.split(' ');
       let output = '';
       let newHistory = [...history, { type: 'input', content: `${cwd}$ ${fullCmd}` }];
+      let newKeys = new Set(keys);
 
       if (cmd === 'ls') {
         const target = args[0] || cwd;
@@ -73,6 +74,8 @@ const SovereignTerminal = () => {
             output = `cd: ${target}: No such directory`;
           }
         }
+      } else if (cmd === 'pwd') {
+        output = cwd;
       } else if (cmd === 'cat') {
         if (!args[0]) {
           output = 'cat: missing operand';
@@ -84,7 +87,7 @@ const SovereignTerminal = () => {
         const path = `${cwd}/${args[1]}`.replace('//', '/');
         if (permissions.hasOwnProperty(path)) {
           setPermissions({ ...permissions, [path]: true });
-          output = `✅ Module enabled: ${args[1]}`;
+          output = `Permissions updated: ${args[1]} is now executable.`;
         } else {
           output = `chmod: ${args[1]}: File not found`;
         }
@@ -93,9 +96,9 @@ const SovereignTerminal = () => {
         const path = `${cwd}/${scriptName}`.replace('//', '/');
         if (permissions[path]) {
           output = files[path];
-          if (output.includes('KEY_01')) setKeys(new Set(keys).add('KEY_01'));
+          if (output && output.includes('KEY_01')) newKeys.add('KEY_01');
         } else {
-          output = `Permission denied. Try chmod +x.`;
+          output = `Permission denied. Run 'chmod +x ${scriptName}' first.`;
         }
       } else if (cmd === 'grep') {
         const term = args[0];
@@ -103,20 +106,20 @@ const SovereignTerminal = () => {
         const path = `${cwd}/${filename}`.replace('//', '/');
         if (files[path] && files[path].includes(term)) {
           output = files[path];
-          if (term === 'RESTRICTED') setKeys(new Set(keys).add('KEY_02'));
+          if (term === 'RESTRICTED') newKeys.add('KEY_02');
         } else {
-          output = `No matches found.`;
+          output = `grep: no matches found for '${term}'`;
         }
       } else if (cmd === 'python3' || cmd === 'python') {
         if (!args[0]) {
           output = 'python3: missing filename';
         } else {
           const path = `${cwd}/${args[0]}`.replace('//', '/');
-          if (files[path] && path.endswith('.py')) {
+          if (files[path] && path.endsWith('.py')) {
             output = files[path];
-            setKeys(new Set(keys).add('KEY_03'));
+            newKeys.add('KEY_03');
           } else {
-            output = `python: ${args[0]}: Cannot execute`;
+            output = `python3: ${args[0]}: Cannot open or find file`;
           }
         }
       } else if (cmd === 'clear') {
@@ -134,10 +137,11 @@ const SovereignTerminal = () => {
         lines.forEach(line => newHistory.push({ type: 'output', content: line }));
       }
       
-      if (keys.size === 3) {
-        newHistory.push({ type: 'success', content: "🏆 VICTORY: THE NOTARY IS SECURED. REVOLUTION COMPLETE." });
+      if (newKeys.size === 3 && keys.size < 3) {
+        newHistory.push({ type: 'success', content: "ALL THREE SECTORS SECURED. THE NOTARY BRIDGE IS LIVE. BEHAVIORAL FIREWALL ONLINE." });
       }
 
+      setKeys(newKeys);
       setHistory(newHistory);
       setInput('');
     }
