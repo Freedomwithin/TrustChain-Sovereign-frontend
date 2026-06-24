@@ -8,7 +8,7 @@ const SpecsPage = () => {
       
       <section className="specs-hero">
         <h1 className="specs-title">Technical Specifications</h1>
-        <p className="specs-subtitle">Sovereign Protocol Architecture v3.1</p>
+        <p className="specs-subtitle">Sovereign Protocol Architecture v3.2</p>
       </section>
 
       <div className="specs-grid">
@@ -115,7 +115,7 @@ const SpecsPage = () => {
         <pre className="code-block">
 {`{
   "protocol": "TrustChain",
-  "version": "3.1",
+  "version": "3.2",
   "sentinel": {
     "window_ms": 3000,
     "gini_limit": 0.70,

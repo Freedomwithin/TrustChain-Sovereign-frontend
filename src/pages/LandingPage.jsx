@@ -42,7 +42,7 @@ const LandingPage = () => {
       <header className="hero-section" style={{ transform: `translateY(${scrollY * 0.2}px)` }}>
         <div className="hero-glow"></div>
         <div className="hero-content">
-          <div className="badge-vault animate-pulse">V3.1 ALPHA — BETA OPERATIONAL</div>
+          <div className="badge-vault animate-pulse">V3.2 SOVEREIGN — OPERATIONAL</div>
           <h1 className="hero-title">
             <span className="text-gradient">Behavioral Immunity</span><br/>
             <span className="text-sub">For the Solana Network</span>
@@ -353,7 +353,7 @@ if (data.status === 'RESTRICTED') {
 
       <footer className="sovereign-footer">
         <div className="footer-content">
-          <p className="footer-tag">TRUSTCHAIN SOVEREIGN v3.1</p>
+          <p className="footer-tag">TRUSTCHAIN SOVEREIGN v3.2</p>
           <div className="footer-links">
             <a href="https://github.com/Freedomwithin/TrustChain-Sovereign-frontend" target="_blank" rel="noopener noreferrer">GITHUB</a>
             <a href="https://solana.org/" target="_blank" rel="noopener noreferrer">SOLANA</a>
